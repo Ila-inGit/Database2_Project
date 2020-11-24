@@ -1,5 +1,7 @@
 CREATE DATABASE IF NOT EXISTS db2_project;
 
+USE db2_project;
+
 CREATE TABLE IF NOT EXISTS Users (
   id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
   username VARCHAR(32) UNIQUE NOT NULL,
@@ -66,7 +68,7 @@ ALTER TABLE StatisticAnswers ADD FOREIGN KEY (prodID) REFERENCES Products (id);
 CREATE TABLE IF NOT EXISTS Score (
   userId INT,
   prodID INT,
-  points INT (points > 0),
+  points INT CHECK (points > 0),
   PRIMARY KEY (userId, prodID)
 );
 
@@ -78,7 +80,7 @@ ALTER TABLE Score ADD FOREIGN KEY (prodID) REFERENCES Products (id) ON UPDATE CA
 CREATE TABLE IF NOT EXISTS QuestionaireLogs (
   userId INT,
   prodID INT,
-  openDate DATETIME NOT NULL DEFAULT NOW()
+  openDate DATETIME NOT NULL DEFAULT NOW(),
   PRIMARY KEY (userId, prodID, openDate)
 );
 
@@ -91,6 +93,4 @@ CREATE TABLE IF NOT EXISTS BlackList (
   id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
   word varchar(255) NOT NULL
 );
-
-
 
