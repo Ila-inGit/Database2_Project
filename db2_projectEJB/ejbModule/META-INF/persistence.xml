@@ -6,6 +6,10 @@
 	<persistence-unit name="db2_project">
 		<jta-data-source>localDB</jta-data-source>
 		<class>it.polimi.db2.entities.ForbiddenWord</class>
+		<class>it.polimi.db2.entities.Product</class>
+		<class>it.polimi.db2.entities.Review</class>
+		<class>it.polimi.db2.entities.Score</class>
+		<class>it.polimi.db2.entities.User</class>
 		<properties>
 			<property name="eclipselink.logging.level" value="FINE" />
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
