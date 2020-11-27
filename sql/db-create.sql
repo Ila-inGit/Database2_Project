@@ -19,10 +19,10 @@ CREATE TABLE IF NOT EXISTS Products (
 );
 
 CREATE TABLE IF NOT EXISTS Reviews (
+  id INT PRIMARY KEY,
   prodId INT,
   userId INT,
-  body VARCHAR(255) NOT NULL,
-  PRIMARY KEY (prodId, userId)
+  body VARCHAR(255) NOT NULL
 );
 
 ALTER TABLE Reviews ADD FOREIGN KEY (prodId) REFERENCES Users (id) ON UPDATE CASCADE ON DELETE CASCADE;
@@ -65,10 +65,10 @@ ALTER TABLE StatisticAnswers ADD FOREIGN KEY (prodID) REFERENCES Products (id);
 
 
 CREATE TABLE IF NOT EXISTS Score (
+  id INT PRIMARY KEY,
   userId INT,
   prodID INT,
-  points INT CHECK (points > 0),
-  PRIMARY KEY (userId, prodID)
+  points INT CHECK (points > 0)
 );
 
 ALTER TABLE Score ADD FOREIGN KEY (userId) REFERENCES Users (id) ON UPDATE CASCADE ON DELETE CASCADE;
@@ -77,10 +77,10 @@ ALTER TABLE Score ADD FOREIGN KEY (prodID) REFERENCES Products (id) ON UPDATE CA
 
 
 CREATE TABLE IF NOT EXISTS QuestionaireLogs (
+  id INT PRIMARY KEY,
   userId INT,
   prodId INT,
   openDate DATETIME NOT NULL DEFAULT NOW(),
-  PRIMARY KEY (userId, prodID, openDate)
 );
 
 ALTER TABLE QuestionaireLogs ADD FOREIGN KEY (userId) REFERENCES Users (id) ON UPDATE CASCADE ON DELETE NO ACTION;

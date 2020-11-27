@@ -17,11 +17,11 @@ public class QuestionaireLog implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@ManyToOne
+	@ManyToOne(cascade={CascadeType.REFRESH, CascadeType.REMOVE})
 	@JoinColumn(name="id")
 	private User user;
 	
-	@ManyToOne
+	@ManyToOne(cascade={CascadeType.REFRESH, CascadeType.REMOVE})
 	@JoinColumn(name="id")
 	private Product product;
 	
