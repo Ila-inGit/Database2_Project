@@ -73,17 +73,3 @@ public class Review implements Serializable{
 	
 }
 
-//TODO add to prod later
-
-////bi-directional many-to-one association to Review
-//		@OneToMany(mappedBy = "user", fetch = FetchType.EAGER,  cascade = { CascadeType.PERSIST, CascadeType.REMOVE,
-//				CascadeType.REFRESH }, orphanRemoval = true )
-//		private List<Review> reviews;
-//		
-//		//bi-directional many-to-one association to Score
-//		@OneToMany(mappedBy = "user", fetch = FetchType.EAGER,  cascade = { CascadeType.PERSIST, CascadeType.REMOVE,
-//				CascadeType.REFRESH }, orphanRemoval = true )
-//		private List<Score> scores;
-//	
-//	
-//
