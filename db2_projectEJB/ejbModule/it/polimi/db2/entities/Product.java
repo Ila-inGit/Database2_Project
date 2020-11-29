@@ -35,7 +35,16 @@ public class Product implements Serializable {
 	@Column(name="highlightDate")
 	private Date displayDate;
 	
-
+	
+	//bi-directional relationship with Question
+	@OneToMany(mappedBy = "prod", fetch = FetchType.EAGER,  cascade = { CascadeType.PERSIST, CascadeType.REMOVE,
+			CascadeType.REFRESH }, orphanRemoval = true )
+	private List<Question> questions;
+	
+	//bi-directional relationship with StatisticAnswer
+	@OneToMany(mappedBy = "prod", fetch = FetchType.EAGER,  cascade = { CascadeType.PERSIST, CascadeType.REMOVE,
+			CascadeType.REFRESH }, orphanRemoval = true )
+	private List<StatisticAnswer> statAns;
 	
 	//bi-directional many-to-one association to Review
 	@OneToMany(mappedBy = "prod", fetch = FetchType.EAGER,  cascade = { CascadeType.PERSIST, CascadeType.REMOVE,
