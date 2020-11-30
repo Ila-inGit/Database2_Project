@@ -18,12 +18,12 @@ public class Score implements Serializable {
 	
 	// bi-directional many-to-one association to User
 	@ManyToOne
-	@JoinColumn(name = "user")
+	@JoinColumn(name = "userId")
 	private User user;
 	
 	// bi-directional many-to-one association to Product
 	@ManyToOne
-	@JoinColumn(name = "prod")
+	@JoinColumn(name = "prodId")
 	private Product prod;
 	
 	@Column(name = "points", nullable = false)

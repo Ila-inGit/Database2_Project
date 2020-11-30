@@ -34,13 +34,13 @@ public class ReviewsService {
 		return reviews;
 	}
 	
-//
-//	public List<Review> findReviewsByProd(int prodId) {
-//		Product prod = em.find(Product.class, prodId);
-//		List<Review> reviews = prod.getReviews();
-//		return reviews;
-//
-//	}
+
+	public List<Review> findReviewsByProd(int prodId) {
+		Product prod = em.find(Product.class, prodId);
+		List<Review> reviews = prod.getReviews();
+		return reviews;
+
+	}
 
 	// no cache
 	public List<Review> findReviewsByProdNoCache(int prodId) {

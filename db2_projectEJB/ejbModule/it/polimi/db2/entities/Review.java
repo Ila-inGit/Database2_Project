@@ -23,12 +23,12 @@ public class Review implements Serializable{
 	
 	// bi-directional many-to-one association to Product
 	@ManyToOne
-	@JoinColumn(name = "prod")
+	@JoinColumn(name = "prodId")
 	private Product prod;
 	
 	// bi-directional many-to-one association to User
 	@ManyToOne
-	@JoinColumn(name = "user")
+	@JoinColumn(name = "userId")
 	private User user;
 	
 	@Column(name = "body", nullable = false)
