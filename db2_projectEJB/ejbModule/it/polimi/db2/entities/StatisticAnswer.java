@@ -16,12 +16,12 @@ public class StatisticAnswer implements Serializable{
 
     //bi-directional relationship with Product
 	@ManyToOne
-	@JoinColumn(name = "prod")
+	@JoinColumn(name = "prodId")
 	private Product prod;
 	
 	//bi-directional relationship with User
 	@ManyToOne
-	@JoinColumn(name = "user")
+	@JoinColumn(name = "userId")
 	private User user;
  
     @Enumerated(EnumType.STRING)

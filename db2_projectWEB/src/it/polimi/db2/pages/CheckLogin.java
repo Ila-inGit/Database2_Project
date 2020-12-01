@@ -21,7 +21,7 @@ import it.polimi.db2.entities.User;
 import it.polimi.db2.services.UserService;
 
 
-@WebServlet("/CheckLogin")
+@WebServlet("/")
 public class CheckLogin extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
@@ -40,6 +40,18 @@ public class CheckLogin extends HttpServlet {
 		this.templateEngine = new TemplateEngine();
 		this.templateEngine.setTemplateResolver(templateResolver);
 		templateResolver.setSuffix(".html");
+	}
+
+	
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		var rw = resp.getWriter();
+		
+		// TODO Auto-generated method stub
+		rw.append("Fraternaliiiiiiiiiiiiiiiiiiii ");
+		
+		//this.doPost(req, resp);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

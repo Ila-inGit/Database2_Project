@@ -1,11 +1,13 @@
 package it.polimi.db2.entities;
 
 import java.io.Serializable;
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "questions", schema = "db2_project")
-@NamedQueries({@NamedQuery(name = "Question.findByProd", query = "Select q FROM Question q WHERE q.prod.id = :prodId")})
+@NamedQueries({@NamedQuery(name = "Question.findByProd", query = "Select q FROM Question q WHERE q.prodId.id = :prodId")})
 public class Question implements Serializable{
     private static final long serialVersionUID = 1L;
 
@@ -19,9 +21,9 @@ public class Question implements Serializable{
     private Product prodId;
 
     //bi-directional relationship with Answer
-    @OneToOne (mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.REMOVE,
+    @OneToMany (mappedBy = "quest", cascade = {CascadeType.PERSIST, CascadeType.REMOVE,
                 CascadeType.REFRESH}, orphanRemoval = true)
-    private Answer ans;
+    private List<Answer> answers;
 
     @Column(name = "body", nullable = false)
 	private char body[];

@@ -28,6 +28,7 @@ public class Product implements Serializable {
 	
 	@Lob
 	@Basic(fetch = FetchType.LAZY)
+	@Column(name="image")
 	private byte[] photo;
 	
 	
@@ -37,7 +38,7 @@ public class Product implements Serializable {
 	
 	
 	//bi-directional relationship with Question
-	@OneToMany(mappedBy = "prod", fetch = FetchType.EAGER,  cascade = { CascadeType.PERSIST, CascadeType.REMOVE,
+	@OneToMany(mappedBy = "prodId", fetch = FetchType.EAGER,  cascade = { CascadeType.PERSIST, CascadeType.REMOVE,
 			CascadeType.REFRESH }, orphanRemoval = true )
 	private List<Question> questions;
 	
@@ -55,6 +56,11 @@ public class Product implements Serializable {
 	@OneToMany(mappedBy = "prod", fetch = FetchType.EAGER,  cascade = { CascadeType.PERSIST, CascadeType.REMOVE,
 			CascadeType.REFRESH }, orphanRemoval = true )
 	private List<Score> scores;
+	
+	//bi-directional many-to-one association to Score
+		@OneToMany(mappedBy = "prod", fetch = FetchType.EAGER,  cascade = { CascadeType.PERSIST, CascadeType.REMOVE,
+				CascadeType.REFRESH }, orphanRemoval = true )
+		private List<QuestionaireLog> qLog;
 
 	public List<Review> getReviews() {
 		return reviews;

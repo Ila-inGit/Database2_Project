@@ -18,12 +18,12 @@ public class QuestionaireLog implements Serializable {
 	private int id;
 	
 	@ManyToOne(cascade={CascadeType.REFRESH, CascadeType.REMOVE})
-	@JoinColumn(name="id")
+	@JoinColumn(name="id",insertable=false, updatable=false)
 	private User user;
 	
 	@ManyToOne(cascade={CascadeType.REFRESH, CascadeType.REMOVE})
-	@JoinColumn(name="id")
-	private Product product;
+	@JoinColumn(name="id",insertable=false, updatable=false)
+	private Product prod;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date openDate;
@@ -37,11 +37,11 @@ public class QuestionaireLog implements Serializable {
 	}
 
 	public Product getProduct() {
-		return product;
+		return prod;
 	}
 
-	public void setProduct(Product product) {
-		this.product = product;
+	public void setProduct(Product prod) {
+		this.prod = prod;
 	}
 
 	public int getId() {

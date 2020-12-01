@@ -51,6 +51,12 @@ public class User implements Serializable{
 	private List<Score> scores;
 	
 	
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER,  cascade = { CascadeType.PERSIST, CascadeType.REMOVE,
+			CascadeType.REFRESH }, orphanRemoval = true )
+	private List<QuestionaireLog> qLog;
+	
+
+	
 	public User() {
 		
 	}

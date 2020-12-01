@@ -15,13 +15,13 @@ public class Answer implements Serializable{
 	private int id;
 
     // bi-directional relationship with Question
-	@OneToOne (fetch = FetchType.LAZY)
-	@JoinColumn(name = "quest")
+	@ManyToOne (fetch = FetchType.LAZY)
+	@JoinColumn(name = "quetionID")
 	private Question quest;
 	
 	// bi-directional relationship with User
 	@ManyToOne
-	@JoinColumn(name = "user")
+	@JoinColumn(name = "userId")
 	private User user;
 
     @Column(name = "body", nullable = false)

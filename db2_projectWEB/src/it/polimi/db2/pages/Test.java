@@ -14,7 +14,7 @@ import it.polimi.db2.services.WordFilterService;
 /**
  * Servlet implementation class Test
  */
-@WebServlet("/")
+@WebServlet("/Test")
 public class Test extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
