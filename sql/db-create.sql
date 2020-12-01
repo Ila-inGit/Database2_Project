@@ -39,10 +39,10 @@ CREATE TABLE IF NOT EXISTS  Questions (
 ALTER TABLE Questions ADD FOREIGN KEY (prodId) REFERENCES Products (id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 CREATE TABLE IF NOT EXISTS Answers (
+  id INT PRIMARY KEY,
   userId INT,
   quetionID INT,
-  body varchar(255) NOT NULL,
-  PRIMARY KEY (userId, quetionID)
+  body varchar(255) NOT NULL
 );
 
 ALTER TABLE Answers ADD FOREIGN KEY (userId) REFERENCES Users (id) ON UPDATE CASCADE ON DELETE NO ACTION;
@@ -51,12 +51,12 @@ ALTER TABLE Answers ADD FOREIGN KEY (quetionID) REFERENCES Questions (id) ON UPD
 
 
 CREATE TABLE IF NOT EXISTS StatisticAnswers (
+  id INT PRIMARY KEY,
   userId INT,
   prodID INT,
   gender ENUM('male', 'famale', 'helicopter') NOT NULL,
   expLvl ENUM('low', 'medium', 'high') NOT NULL,
-  age INT CHECK (age > 0) NOT NULL,
-  PRIMARY KEY (userId, prodID)
+  age INT CHECK (age > 0) NOT NULL
 );
 
 ALTER TABLE StatisticAnswers ADD FOREIGN KEY (userId) REFERENCES Users (id) ON UPDATE CASCADE ON DELETE NO ACTION;
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS QuestionaireLogs (
   id INT PRIMARY KEY,
   userId INT,
   prodId INT,
-  openDate DATETIME NOT NULL DEFAULT NOW(),
+  openDate DATETIME NOT NULL DEFAULT NOW()
 );
 
 ALTER TABLE QuestionaireLogs ADD FOREIGN KEY (userId) REFERENCES Users (id) ON UPDATE CASCADE ON DELETE NO ACTION;
