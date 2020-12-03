@@ -1,6 +1,7 @@
 package it.polimi.db2.pages;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -25,7 +26,10 @@ import it.polimi.db2.services.UserService;
 public class CheckLogin extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
-	private TemplateEngine templateEngine;
+	
+	//private TemplateEngine templateEngine;
+	
+	
 	@EJB(name = "it.polimi.db2.services/UserService")
 	private UserService usrService;
 
@@ -33,27 +37,7 @@ public class CheckLogin extends HttpServlet {
 		super();
 	}
 
-	public void init() throws ServletException {
-		ServletContext servletContext = getServletContext();
-		ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
-		templateResolver.setTemplateMode(TemplateMode.HTML);
-		this.templateEngine = new TemplateEngine();
-		this.templateEngine.setTemplateResolver(templateResolver);
-		templateResolver.setSuffix(".html");
-	}
-
 	
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-		var rw = resp.getWriter();
-		
-		// TODO Auto-generated method stub
-		rw.append("Fraternaliiiiiiiiiiiiiiiiiiii ");
-		
-		//this.doPost(req, resp);
-	}
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// obtain and escape params
@@ -62,22 +46,34 @@ public class CheckLogin extends HttpServlet {
 		try {
 			usrn = StringEscapeUtils.escapeJava(request.getParameter("username"));
 			pwd = StringEscapeUtils.escapeJava(request.getParameter("pwd"));
-			if (usrn == null || pwd == null || usrn.isEmpty() || pwd.isEmpty()) {
-				throw new Exception("Missing or empty credential value");
-			}
+			
+			/*
+			 * if (usrn == null || pwd == null || usrn.isEmpty() || pwd.isEmpty()) { throw
+			 * new Exception("Missing or empty credential value"); }
+			 */
 
+			/*
+			 * PrintWriter writer = response.getWriter(); writer.println("<h1>Hello " + usrn
+			 * + "</h1>"); writer.close();
+			 */
+			
+			
 		} catch (Exception e) {
-			// for debugging only e.printStackTrace();
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing credential value");
+			PrintWriter writer = response.getWriter();
+			writer.println("missing credential values");
+			writer.close();
 			return;
 		}
 		User user;
 		try {
 			// query db to authenticate for user
 			user = usrService.checkCredentials(usrn, pwd);
+			
+			
 		} catch (NonUniqueResultException e) {
-			e.printStackTrace();
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "More than one user registered with same credentials");
+			PrintWriter writer = response.getWriter();
+			writer.println("more than one user with the same name");
+			writer.close();
 			return;
 		}
 
@@ -88,7 +84,9 @@ public class CheckLogin extends HttpServlet {
 		if (user == null) {
 			
 			
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "User null");
+			PrintWriter writer = response.getWriter();
+			writer.println("user null");
+			writer.close();
 			/*
 			 * ServletContext servletContext = getServletContext(); final WebContext ctx =
 			 * new WebContext(request, response, servletContext, request.getLocale());
@@ -98,15 +96,14 @@ public class CheckLogin extends HttpServlet {
 		} else {
 			
 			
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "User NOT null YOU ENTERED ");
+			PrintWriter writer = response.getWriter();
+			writer.println("You are registered! ");
+			writer.close();
 			/*
 			 * request.getSession().setAttribute("user", user); path =
 			 * getServletContext().getContextPath() + "/Home"; response.sendRedirect(path);
 			 */
 		}
 
-	}
-
-	public void destroy() {
 	}
 }
