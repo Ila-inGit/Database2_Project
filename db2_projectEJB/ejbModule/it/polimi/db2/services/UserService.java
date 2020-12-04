@@ -7,7 +7,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
-
 import it.polimi.db2.entities.User;
 
 @Stateless
@@ -41,6 +40,25 @@ public class UserService {
 			return uList.get(0);
 		throw new NonUniqueResultException("More than one user registered with same credentials");
 
+	}
+	
+	
+	public boolean registerUser(String email, String usrn, String pwd){
+		
+		List<User> users = em.createNamedQuery("User.findByEmail", User.class).setParameter("email", email).getResultList();
+		
+		
+		if(users.isEmpty()) {
+			User newUser= new User();
+			newUser.setEmail(email);
+			newUser.setUserName(usrn);
+			newUser.setPassword(pwd);
+			em.persist(newUser);
+			return true;
+		}else {
+			return false;
+		}
+				
 	}
 	
 }
