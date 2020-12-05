@@ -4,4 +4,10 @@
   <welcome-file-list>
     <welcome-file>RegisterPage.jsp</welcome-file>
   </welcome-file-list>
+  
+  <servlet>
+  	<servlet-name>ProductOfTheDay</servlet-name>
+  	<servlet-class>it.polimi.db2.pages.ProductPage</servlet-class>
+  </servlet>
+
 </web-app>

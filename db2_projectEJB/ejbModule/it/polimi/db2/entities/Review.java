@@ -32,7 +32,7 @@ public class Review implements Serializable{
 	private User user;
 	
 	@Column(name = "body", nullable = false)
-	private char body[];
+	private String body;
 
 	
 	
@@ -40,7 +40,7 @@ public class Review implements Serializable{
 		super();
 	}
 
-	public Review(Product prod, User user, char[] body) {
+	public Review(Product prod, User user, String body) {
 		this.prod = prod;
 		this.user = user;
 		this.body = body;
@@ -62,11 +62,11 @@ public class Review implements Serializable{
 		this.user = user;
 	}
 
-	public char[] getBody() {
+	public String getBody() {
 		return body;
 	}
 
-	public void setBody(char[] body) {
+	public void setBody(String body) {
 		this.body = body;
 	}
 	

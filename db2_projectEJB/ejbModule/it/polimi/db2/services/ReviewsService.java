@@ -50,7 +50,7 @@ public class ReviewsService {
 		return reviews;
 	}
 
-	public void createReview(int userId, int prodId, char body[]) {
+	public void createReview(int userId, int prodId, String body) {
 		User user = em.find(User.class, userId);
 		Product prod = em.find(Product.class, prodId);
 		Review review = new Review(prod, user, body);
