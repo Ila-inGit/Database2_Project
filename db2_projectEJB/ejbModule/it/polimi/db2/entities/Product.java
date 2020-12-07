@@ -81,6 +81,21 @@ public class Product implements Serializable {
 		this.scores = scores;
 	}
 
+	public List<Question> getQuestions() {
+		return questions;
+	}
+
+	public void setQuestion(List<Question> question) {
+		this.questions = question;
+	}
+	
+	public List<StatisticAnswer> getStatAnswers() {
+		return statAns;
+	}
+
+	public void setStatAnswer(List<StatisticAnswer> statAns) {
+		this.statAns = statAns;
+	}
 
 	public int getId() {
 		return id;
@@ -133,5 +148,23 @@ public class Product implements Serializable {
 	
 	public void removeScore(Score score) {
 		getScores().remove(score);
+	}
+	
+	public void addQuestion(Question question) {
+		getQuestions().add(question);
+		question.setProd(this);
+	}
+	
+	public void removeQuestion(Question question) {
+		getQuestions().remove(question);
+	}
+	
+	public void addStatAnswer(StatisticAnswer statAnswer) {
+		getStatAnswers().add(statAnswer);
+		statAnswer.setProd(this);
+	}
+	
+	public void removeStatAnswer(StatisticAnswer statAnswer) {
+		getStatAnswers().remove(statAnswer);
 	}
 }

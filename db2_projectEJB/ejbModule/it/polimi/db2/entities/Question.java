@@ -26,11 +26,11 @@ public class Question implements Serializable{
     private List<Answer> answers;
 
     @Column(name = "body", nullable = false)
-	private char body[];
+	private String body;
 
     public Question() {}
 
-    public Question(Product prod, char[] body){
+    public Question(Product prod, String body){
         this.prodId = prod;
         this.body = body;
     }
@@ -43,7 +43,7 @@ public class Question implements Serializable{
 
 	public void setProd(Product prod) {this.prodId = prod;}
 
-    public char[] getBody() {return body;}
+    public String getBody() {return body;}
 
-    public void setBody(char[] body) {this.body = body;}
+    public void setBody(String body) {this.body = body;}
 }
