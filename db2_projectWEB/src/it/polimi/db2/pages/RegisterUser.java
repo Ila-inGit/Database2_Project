@@ -1,7 +1,6 @@
 package it.polimi.db2.pages;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;

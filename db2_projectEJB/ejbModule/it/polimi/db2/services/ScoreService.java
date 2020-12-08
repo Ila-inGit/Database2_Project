@@ -1,7 +1,10 @@
 package it.polimi.db2.services;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -9,6 +12,7 @@ import it.polimi.db2.entities.Product;
 import it.polimi.db2.entities.Score;
 import it.polimi.db2.entities.User;
 
+@Stateless
 public class ScoreService {
 
 	@PersistenceContext(unitName = "db2_project")
@@ -61,10 +65,23 @@ public class ScoreService {
 		
 		// both side of the relation is updated
 		user.addScore(score);
-		/// TODO
-		// prod.addScore(score);
+		//prod.addScore(score);
 		em.persist(user);
-		// em.persist(prod);
+		em.persist(prod);
 	}
+	
+	public Map<String, String> createScoreBoard() {
+
+		String jpaQuery = "SELECT s.userId, u.username, sum(s.points) FROM Score s JOIN Users u on u.id = s.userId  GROUP BY s.userId ORDER BY s.points";
+		List<Object[]> scores = em.createNativeQuery(jpaQuery).getResultList();
+		Map<String, String> map=new HashMap<String, String>();
+		
+		for (Object[] result : scores) {
+	        map.put(result[1].toString(), result[2].toString());
+	    }
+
+	    return map;
+	}
+	
 	
 }

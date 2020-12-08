@@ -11,6 +11,7 @@ import it.polimi.db2.entities.User;
 
 @Stateless
 public class UserService {
+	
 	@PersistenceContext(unitName = "db2_project")
 	private EntityManager em;
 	
@@ -42,7 +43,13 @@ public class UserService {
 
 	}
 	
-	
+	/**
+	 * Method for register a new user to the database
+	 * @param email
+	 * @param usrn userName of the new user
+	 * @param pwd password of the new user
+	 * @return true if the registration is made
+	 */
 	public boolean registerUser(String email, String usrn, String pwd){
 		
 		List<User> users = em.createNamedQuery("User.findByEmail", User.class).setParameter("email", email).getResultList();

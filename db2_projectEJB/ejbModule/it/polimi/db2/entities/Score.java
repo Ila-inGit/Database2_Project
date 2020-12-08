@@ -6,9 +6,11 @@ import javax.persistence.*;
 @Entity
 @Table(name = "score", schema = "db2_project")
 @NamedQueries({ @NamedQuery(name = "Score.findAll", query = "SELECT s FROM Score s"),
-	@NamedQuery(name = "Score.findByUser", query = "Select s FROM Score s WHERE s.user.id = :userId "),
-	@NamedQuery(name = "Score.findByProd", query = "Select s FROM Score s WHERE s.prod.id = :prodId ")})
+	@NamedQuery(name = "Score.findByUser", query = "SELECT s FROM Score s WHERE s.user.id = :userId "),
+	@NamedQuery(name = "Score.findByProd", query = "SELECT s FROM Score s WHERE s.prod.id = :prodId "),
+	@NamedQuery(name = "Score.createScoreBoard", query = "SELECT s.user, sum(s.points) FROM Score s GROUP BY s.user ORDER BY s.points")})
 
+//SELECT s.user AS us, sum(s.points) AS pointsSum FROM Score AS s GROUP BY s.user ORDER BY pointsSum 
 public class Score implements Serializable {
 	private static final long serialVersionUID = 1L;
 
