@@ -60,10 +60,10 @@ public class ReviewsService {
 
 		// both side of the relation is updated
 		user.addReview(review);
-		/// TODO
-		// prod.addReview(review);
+		
+		prod.addReview(review);
 		em.persist(user);
-		// em.persist(prod);
+		em.persist(prod);
 	}
 
 }

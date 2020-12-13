@@ -22,18 +22,21 @@ public class LogOut extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		
 		HttpSession session = request.getSession(false);
 		
 		if(session != null) {
 			session.invalidate();
 		}
 		request.getRequestDispatcher("/LoginPage.jsp").forward(request, response);	
+		
+		
+	}
+
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);	
 	}
 
 }

@@ -41,9 +41,11 @@ public class ScoreBoard extends HttpServlet {
 			Map<String, String> scoreBoard = scoreService.createScoreBoard();
 		
 			String message = "Something goes wrong";
+			String success = "That's strange, everything went right";
 		
 			if(scoreBoard != null) {
 				request.setAttribute("scoreBoard", scoreBoard);
+				request.setAttribute("success", success);
 				request.getRequestDispatcher("/ScoreBoardPage.jsp").forward(request, response);
 			}else {
 				request.setAttribute("message", message);

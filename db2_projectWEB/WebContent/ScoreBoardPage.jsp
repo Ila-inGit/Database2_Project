@@ -11,6 +11,18 @@
 <body>
 	<h1>Charles Leclerc's points Page</h1>
 	
+	<center>
+		<h2>
+			welcome back, ${user.getUserName()}
+		</h2>
+	</center>
+	
+	<div align="right">
+		<a href="LogOut">LogOut</a>
+	</div>
+	
+	<br>
+	
 	<form action="ScoreBoard" method="POST">
 		<span class="error">${message}</span> <br>
 		<input type="submit" value="Get scoreBoard">
@@ -19,22 +31,11 @@
 	
 	<br>
 		<fieldset>
-			<h2>this is so sad</h2>
+			<h3> Nothing...this is so sad</h3>
 			<c:forEach items="${scoreBoard}" var="entry">
 			     UserName = ${entry.key}, Scores = ${entry.value}<br>
 			</c:forEach>
 		</fieldset>
 	<br>
-
-	<fieldset>
-		<form action="LoginPage.jsp">
-			<input type="submit" value = "Go to Log In Page">
-		</form>
-	</fieldset>
-	<fieldset>
-		<form action="RegisterPage.jsp">
-			<input type="submit" value = "Go to Register Page">
-		</form>
-	</fieldset>
 </body>
 </html>

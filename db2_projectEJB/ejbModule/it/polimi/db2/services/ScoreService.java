@@ -72,8 +72,7 @@ public class ScoreService {
 	
 	public Map<String, String> createScoreBoard() {
 
-		String jpaQuery = "SELECT s.userId, u.username, sum(s.points) FROM Score s JOIN Users u on u.id = s.userId  GROUP BY s.userId ORDER BY s.points";
-		List<Object[]> scores = em.createNativeQuery(jpaQuery).getResultList();
+		List<Object[]> scores = em.createNamedQuery("Score.createScoreBoard").getResultList();
 		Map<String, String> map=new HashMap<String, String>();
 		
 		for (Object[] result : scores) {

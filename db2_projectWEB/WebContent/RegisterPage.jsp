@@ -26,10 +26,5 @@
 			<input type="submit" value = "Go to Log In Page">
 		</form>
 	</fieldset>
-	<fieldset>
-		<form action="ScoreBoardPage.jsp">
-			<input type="submit" value = "Go to ScoreBoard Page">
-		</form>
-	</fieldset>
 </body>
 </html>

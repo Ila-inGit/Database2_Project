@@ -1,9 +1,6 @@
 package it.polimi.db2.pages;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,10 +10,6 @@ import javax.ejb.EJB;
 import javax.persistence.NonUniqueResultException;
 
 import org.apache.commons.lang.StringEscapeUtils;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.WebContext;
-import org.thymeleaf.templatemode.TemplateMode;
-import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import it.polimi.db2.entities.User;
 import it.polimi.db2.services.UserService;
@@ -75,8 +68,6 @@ public class CheckLogin extends HttpServlet {
 
 		if (user == null) {
 			
-		//TODO add user to session
-			
 			String message = "User is null...not registered yet";
 			request.setAttribute("message", message);
 			request.getRequestDispatcher("/LoginPage.jsp").forward(request, response);
@@ -84,9 +75,11 @@ public class CheckLogin extends HttpServlet {
 			
 		} else {
 			
-			String message = "You logs in!! will redirect to homepage";
-			request.setAttribute("success", message);
-			request.getRequestDispatcher("/LoginPage.jsp").forward(request, response);
+			request.getSession().setAttribute("user", user);
+			
+			request.getRequestDispatcher("/ScoreBoardPage.jsp").forward(request, response);
+			
+			
 			return;
 		}
 
