@@ -12,9 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import it.polimi.db2.services.ProductService;
 
-/**
- * Servlet implementation class ProductPage
- */
+
 @WebServlet("/product")
 public class ProductPage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -35,7 +33,7 @@ public class ProductPage extends HttpServlet {
 		var prod = productService.getTodayProduct();
 		
 		String img = null;
-		if(prod.getPhoto() != null)
+		if(prod != null && prod.getPhoto() != null)
 		{
 			byte[] encodeBase64 = Base64.getEncoder().encode(prod.getPhoto());
 			img = new String(encodeBase64, "UTF-8");		
@@ -46,12 +44,6 @@ public class ProductPage extends HttpServlet {
 		request.setAttribute("product_image", img);
 		request.getRequestDispatcher((prod != null)? "/ProductPage.jsp" : "/NoProduct.jsp" ).forward(request, response);
 
-	}
-
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		doGet(request, response);
 	}
 
 }

@@ -29,6 +29,6 @@
        </c:forEach> 
 	</table>
 	<br>
-	<span>Admin: <a href="#">Create Product</a> - <a href="#">Delete Product</a></span>
+	<span>Admin: <a href="/product/new">Create Product</a> - <a href="#">Delete Product</a></span>
 </body>
 </html>
