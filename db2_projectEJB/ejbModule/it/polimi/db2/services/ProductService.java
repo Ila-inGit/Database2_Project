@@ -27,7 +27,7 @@ public class ProductService {
 			
 	}
 	
-	public void createProduct(String name, byte[] image, Date displayDate) throws NotAvailableDateException, Exception {
+	public void createProduct(String name, byte[] image, Date displayDate) throws NotAvailableDateException{
 		
 		var today = new Date();
 		
@@ -36,7 +36,7 @@ public class ProductService {
 		
 		// can't create products in the past
 		if(displayDate.before(today))
-			throw new Exception(today.toString() +"-> " + displayDate.toString() +" : "+ (displayDate.before(today) ? "prima" : "dopo"));
+			throw new NotAvailableDateException("Selected date is in the past.");
 	
 		
 		// check if there are other products in the selected date
@@ -48,7 +48,7 @@ public class ProductService {
 			// here we found a result otherwise the above function throws an exception
 			// what a trash design decision, a null value could be A WAY BETTER SOLUTION
 			// but this is java and you must pollute your code with trash exceptions
-			throw new NotAvailableDateException();
+			throw new NotAvailableDateException("Selected date is already used by another product.");
 		}catch(NoResultException e) {}
 		
 		// create product

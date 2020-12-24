@@ -31,17 +31,32 @@ public class ProductPage extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		var prod = productService.getTodayProduct();
+		String img_extension = "";
 		
 		String img = null;
-		if(prod != null && prod.getPhoto() != null)
+		if(prod != null && prod.getPhoto() != null && prod.getPhoto().length > 0)
 		{
 			byte[] encodeBase64 = Base64.getEncoder().encode(prod.getPhoto());
-			img = new String(encodeBase64, "UTF-8");		
+			img = new String(encodeBase64, "UTF-8");
+			// Recognize image type by first byte (this numbers can be found with a search on google)
+			switch( prod.getPhoto()[0]) {
+				case (byte) 0x89:
+					img_extension = "png";
+					break;
+				case (byte) 0x47:
+					img_extension = "gif";
+					break;
+				case (byte) 0xFF:
+					img_extension = "jpg";
+					break;
+			}  
 		}
+		
 		
 		
 		request.setAttribute("product", prod);
 		request.setAttribute("product_image", img);
+		request.setAttribute("product_image_ext", img_extension);
 		request.getRequestDispatcher((prod != null)? "/ProductPage.jsp" : "/NoProduct.jsp" ).forward(request, response);
 
 	}

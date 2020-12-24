@@ -10,7 +10,7 @@
 	<h3>${product.getName()}</h3>
 	<c:choose>
 	    <c:when test="${product_image != null}">
-	    	<img alt="product image" src="data:image/jpg;base64,${product_image}"/>
+	    	<img alt="product image" src="data:image/${product_img_ext};base64,${product_image}"/>
 	    </c:when>
 	    <c:otherwise>
 	       	 No image

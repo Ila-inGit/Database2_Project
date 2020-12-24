@@ -16,6 +16,8 @@ import javax.servlet.http.Part;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
+import com.mysql.cj.jdbc.exceptions.PacketTooBigException;
+
 import it.polimi.db2.exceptions.NotAvailableDateException;
 import it.polimi.db2.services.ProductService;
 import it.polimi.db2.utils.ImageUtils;
@@ -73,19 +75,24 @@ public class CreateProduct extends HttpServlet {
 			
 			request.setAttribute("message", "Created product: "+ name);
 			request.getRequestDispatcher("/SuccessPage.jsp" ).forward(request, response);
-			
-		} catch(NotAvailableDateException e) {
-			
-			request.setAttribute("message", "Your selected date is already used or in the past!");
-			request.getRequestDispatcher("/ErrorPage.jsp" ).forward(request, response);
 			return;
-		} catch(Exception e)
+			
+		} 
+		catch(NotAvailableDateException e) 
 		{
-			request.setAttribute("message", "Something went wrong please try again. "+e.getMessage());
-			request.getRequestDispatcher("/ErrorPage.jsp" ).forward(request, response);
+			
+			request.setAttribute("message", e.getMessage());
+		}
+		catch(Exception e)
+		{
+			request.setAttribute("message", "Your image size must be less than 4MB.");
+			
 		}
 		
 
+		request.getRequestDispatcher("/ErrorPage.jsp" ).forward(request, response);
+		
+		
 	}
 
 }
