@@ -35,7 +35,7 @@ public class UserService {
 		} catch (PersistenceException e) {
 			System.out.print("Credetials not found");
 		}
-		if (uList.isEmpty())
+		if (uList == null || uList.isEmpty())
 			return null;
 		else if (uList.size() == 1)
 			return uList.get(0);

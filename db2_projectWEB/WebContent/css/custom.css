@@ -1,0 +1,25 @@
+body {
+    background-color: #eeeeee;
+}
+
+.expand-h {
+    height: 100%;
+}
+
+.page {
+    background-color: white;
+}
+
+.img-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-img {
+    height: 400px;
+}
+
+.right {
+   float: right; 
+}

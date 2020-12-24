@@ -9,8 +9,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import it.polimi.db2.entities.User;
 import it.polimi.db2.services.ProductService;
+import it.polimi.db2.utils.ImageUtils;
+import it.polimi.db2.utils.UserSessionUtils;
 
 
 @WebServlet("/product")
@@ -29,8 +33,16 @@ public class ProductPage extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			
+		var usr = UserSessionUtils.getSessionUser(request);	
+		if(usr == null) {
+			response.sendRedirect(request.getContextPath()); // send back to home
+			return;
+		
+		}
 		
 		var prod = productService.getTodayProduct();
+		
 		String img_extension = "";
 		
 		String img = null;
@@ -38,25 +50,13 @@ public class ProductPage extends HttpServlet {
 		{
 			byte[] encodeBase64 = Base64.getEncoder().encode(prod.getPhoto());
 			img = new String(encodeBase64, "UTF-8");
-			// Recognize image type by first byte (this numbers can be found with a search on google)
-			switch( prod.getPhoto()[0]) {
-				case (byte) 0x89:
-					img_extension = "png";
-					break;
-				case (byte) 0x47:
-					img_extension = "gif";
-					break;
-				case (byte) 0xFF:
-					img_extension = "jpg";
-					break;
-			}  
-		}
-		
-		
+			img_extension = ImageUtils.getImageExtension(prod.getPhoto());		
+		}		
 		
 		request.setAttribute("product", prod);
 		request.setAttribute("product_image", img);
 		request.setAttribute("product_image_ext", img_extension);
+		request.setAttribute("usr", usr);
 		request.getRequestDispatcher((prod != null)? "/ProductPage.jsp" : "/NoProduct.jsp" ).forward(request, response);
 
 	}

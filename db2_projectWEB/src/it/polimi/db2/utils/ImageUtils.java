@@ -22,5 +22,20 @@ public class ImageUtils {
 		}
 
 	}
+	
+    // Recognize image type by first byte (this numbers can be found with a search on google)
+    public static String getImageExtension(byte[] img) {
+    	
+		switch(img[0]) {
+		case (byte) 0x89:
+			return "png";
+		case (byte) 0x47:
+			return "gif";
+		case (byte) 0xFF:
+			return "jpg";
+		}  
+		
+		return null;
+    }
 
 }
