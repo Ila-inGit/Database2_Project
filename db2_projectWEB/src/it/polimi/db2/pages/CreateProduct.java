@@ -75,23 +75,25 @@ public class CreateProduct extends HttpServlet {
 			
 			
 			request.setAttribute("message", "Created product: "+ name);
-			request.getRequestDispatcher("/SuccessPage.jsp" ).forward(request, response);
-			return;
+			request.setAttribute("success", true);
+			request.setAttribute("back_link", request.getContextPath()+"/product");
 			
 		} 
 		catch(NotAvailableDateException e) 
 		{
 			
 			request.setAttribute("message", e.getMessage());
+			request.setAttribute("back_link", request.getContextPath()+"/product/new");
 		}
 		catch(Exception e)
 		{
-			request.setAttribute("message", "Your image size must be less than 4MB.");
+			request.setAttribute("message", "Something went wrong while creating your product, please retry!");
+			request.setAttribute("back_link", request.getContextPath()+"/product/new");
 			
 		}
 		
 
-		request.getRequestDispatcher("/ErrorPage.jsp" ).forward(request, response);
+		request.getRequestDispatcher("/ResultPage.jsp").forward(request, response);
 		
 		
 	}

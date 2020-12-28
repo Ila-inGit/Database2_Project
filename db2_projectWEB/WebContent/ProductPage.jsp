@@ -36,13 +36,25 @@
 		             <div class="col-sm-12">
 		                 <h1>Reviews</h1>
 		                 <hr>
-		                 <div class="row">
-		                 	<c:forEach items="${product.getReviews()}" var ="review">
-			                 	 <div class="col-sm-12 col-md-6">
-			                         <blockquote cite="${review.getUser().getUserName()}">${review.getBody()}</blockquote>
-			                     </div>
-					       </c:forEach> 
-		                 </div>
+		                 <c:choose>
+						    <c:when test="${product.getReviews().size() > 0}">
+						    	<div class="row">
+		                 			<c:forEach items="${product.getReviews()}" var ="review">
+					                 	 <div class="col-sm-12 col-md-6">
+					                         <blockquote cite="${review.getUser().getUserName()}">${review.getBody()}</blockquote>
+					                     </div>
+							       </c:forEach> 
+				                 </div>
+						    </c:when>
+						    <c:otherwise>
+						    	<div class="row">
+						    		<div class="col-sm-12" style="text-align:center;">
+						       	 		<h4 style="widht:100%;">There are no reviews at the moment</h4>
+						       	 	</div>
+						       	 </div>
+						    </c:otherwise>
+						</c:choose>
+
 		             </div>
 		         </div>
 		    </c:when>

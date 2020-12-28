@@ -5,9 +5,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  <title>2Day Product</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mini-default.min.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/custom.css">
+   <script src="https://kit.fontawesome.com/816d94e0fe.js" crossorigin="anonymous"></script>
 
 </head>
 
