@@ -18,9 +18,11 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 import com.mysql.cj.jdbc.exceptions.PacketTooBigException;
 
+import it.polimi.db2.entities.User;
 import it.polimi.db2.exceptions.NotAvailableDateException;
 import it.polimi.db2.services.ProductService;
 import it.polimi.db2.utils.ImageUtils;
+import it.polimi.db2.utils.UserSessionUtils;
 
 /**
  * Servlet implementation class CreateProduct
@@ -41,6 +43,12 @@ public class CreateProduct extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		var usr = (User) request.getAttribute("usr");
+		if(!usr.isAdmin()) {
+			response.sendError(HttpServletResponse.SC_FORBIDDEN);
+			return;
+		}
+		
 		request.getRequestDispatcher("/CreateProduct.jsp" ).forward(request, response);
 	}
 
@@ -48,6 +56,16 @@ public class CreateProduct extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		var usr = (User) request.getAttribute("usr");
+		if(usr == null) {
+			response.sendRedirect(request.getContextPath()); // send back to home
+			return;
+		
+		}
+		if(!usr.isAdmin()) {
+			response.sendError(HttpServletResponse.SC_FORBIDDEN);
+			return;
+		}
 		
 		String name = StringEscapeUtils.escapeHtml(request.getParameter("fname"));
 		if(name == null || name.length() < 1)

@@ -34,13 +34,6 @@ public class ProductPage extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			
-		var usr = UserSessionUtils.getSessionUser(request);	
-		if(usr == null) {
-			response.sendRedirect(request.getContextPath()); // send back to home
-			return;
-		
-		}
-		
 		var prod = productService.getTodayProduct();
 		
 		String img_extension = "";
@@ -56,7 +49,6 @@ public class ProductPage extends HttpServlet {
 		request.setAttribute("product", prod);
 		request.setAttribute("product_image", img);
 		request.setAttribute("product_image_ext", img_extension);
-		request.setAttribute("usr", usr);
 		request.getRequestDispatcher("/ProductPage.jsp").forward(request, response);
 
 	}
