@@ -57,7 +57,7 @@ public class ProductPage extends HttpServlet {
 		request.setAttribute("product_image", img);
 		request.setAttribute("product_image_ext", img_extension);
 		request.setAttribute("usr", usr);
-		request.getRequestDispatcher((prod != null)? "/ProductPage.jsp" : "/NoProduct.jsp" ).forward(request, response);
+		request.getRequestDispatcher("/ProductPage.jsp").forward(request, response);
 
 	}
 

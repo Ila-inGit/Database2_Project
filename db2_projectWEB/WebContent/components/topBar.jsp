@@ -11,5 +11,5 @@
 	    </c:when>
 	</c:choose>
 
-    <a href="#" class="button">Logout</a>
+    <a href="${pageContext.request.contextPath}/LogOut" class="button">Logout</a>
 </div>
