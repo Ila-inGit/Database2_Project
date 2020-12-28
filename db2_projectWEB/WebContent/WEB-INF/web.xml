@@ -21,13 +21,23 @@
 </servlet-mapping>
 
 <filter>  
-<filter-name>authentication</filter-name>  
-<filter-class>it.polimi.db2.filters.AuthenticationFilter</filter-class>  
+	<filter-name>authentication</filter-name>  
+	<filter-class>it.polimi.db2.filters.AuthenticationFilter</filter-class>  
+</filter>  
+
+<filter>  
+	<filter-name>authorization</filter-name>  
+	<filter-class>it.polimi.db2.filters.AuthorizationFilter</filter-class>  
 </filter>  
 
 <filter-mapping>  
-<filter-name>authentication</filter-name>  
- <url-pattern>/product/*</url-pattern>
+	<filter-name>authentication</filter-name>  
+	 <url-pattern>/product/*</url-pattern>
+</filter-mapping>  
+
+<filter-mapping>  
+	<filter-name>authorization</filter-name>  
+	 <url-pattern>/product/new</url-pattern>
 </filter-mapping>  
 
 </web-app>

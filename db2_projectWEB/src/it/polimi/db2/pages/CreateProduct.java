@@ -42,12 +42,6 @@ public class CreateProduct extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		var usr = (User) request.getAttribute("usr");
-		if(!usr.isAdmin()) {
-			response.sendError(HttpServletResponse.SC_FORBIDDEN);
-			return;
-		}
 		
 		request.getRequestDispatcher("/CreateProduct.jsp" ).forward(request, response);
 	}
@@ -55,17 +49,6 @@ public class CreateProduct extends HttpServlet {
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		var usr = (User) request.getAttribute("usr");
-		if(usr == null) {
-			response.sendRedirect(request.getContextPath()); // send back to home
-			return;
-		
-		}
-		if(!usr.isAdmin()) {
-			response.sendError(HttpServletResponse.SC_FORBIDDEN);
-			return;
-		}
 		
 		String name = StringEscapeUtils.escapeHtml(request.getParameter("fname"));
 		if(name == null || name.length() < 1)
