@@ -15,10 +15,20 @@
 		             </div>
 		             	<c:choose>
 						    <c:when test="${usr.isAdmin() == true}">
-						    	 <div class="col-sm-2">
-					                 <a href="#" role="button">Results</a>
-					                 <a href="#" role="button">Delete</a>
-					             </div>
+					            <div class="col-sm-1 flex-vertical-center ">
+					            	<c:choose>
+					            		<c:when test="${product.getQuestions().size() > 0}">
+							                <a href="${pageContext.request.contextPath}/product/new">
+							                    <span class="tooltip" aria-label="See questionnaire results"><i class="fas fa-poll fa-2x"></i></span>
+							                </a>
+						                </c:when>
+					                </c:choose>
+					            </div>
+					            <div class="col-sm-1 flex-vertical-center ">
+					                <a href="${pageContext.request.contextPath}/product/delete?id=${product.getId()}">
+					                    <span class="tooltip" aria-label="Delete this product"><i class="fas fa-trash fa-2x"></i></span>
+					                </a>
+					            </div>
 						    </c:when>
 						</c:choose>
 		
