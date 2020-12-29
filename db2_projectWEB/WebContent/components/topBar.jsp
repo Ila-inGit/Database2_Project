@@ -6,7 +6,7 @@
 <div class="right">
 	<c:choose>
 	    <c:when test="${usr.isAdmin() == true}">
-	    	 <a href="#" class="button">Dashboard</a>
+	    	 <a href="${pageContext.request.contextPath}/dashboard" class="button">Dashboard</a>
 	    </c:when>
 	</c:choose>
 	<a href="#" class="button">Profile</a>

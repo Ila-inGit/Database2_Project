@@ -10,7 +10,9 @@ import javax.persistence.*;
 @Table(name="Products")
 @NamedQueries({
 	@NamedQuery(name="Product.findAll", query="SELECT p FROM Product p"),
-	@NamedQuery(name="Product.today", query="SELECT p FROM Product p WHERE p.displayDate = CURRENT_DATE")
+	@NamedQuery(name="Product.today", query="SELECT p FROM Product p WHERE p.displayDate = CURRENT_DATE"),
+	@NamedQuery(name="Product.upcoming", query="SELECT p FROM Product p where p.displayDate >= CURRENT_DATE order by p.displayDate"),
+	@NamedQuery(name="Product.old", query="SELECT p FROM Product p where p.displayDate < CURRENT_DATE order by p.displayDate")
 })
 public class Product implements Serializable {
 
@@ -115,7 +117,6 @@ public class Product implements Serializable {
 	public byte[] getPhoto() {
 		return photo;
 	}
-
 
 	public void setPhoto(byte[] photo) {
 		this.photo = photo;

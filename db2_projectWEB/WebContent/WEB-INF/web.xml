@@ -33,11 +33,13 @@
 <filter-mapping>  
 	<filter-name>authentication</filter-name>  
 	 <url-pattern>/product/*</url-pattern>
+	 <url-pattern>/dashboard/*</url-pattern>
 </filter-mapping>  
 
 <filter-mapping>  
 	<filter-name>authorization</filter-name>  
 	 <url-pattern>/product/new</url-pattern>
+	 <url-pattern>/dashboard/*</url-pattern>
 </filter-mapping>  
 
 </web-app>

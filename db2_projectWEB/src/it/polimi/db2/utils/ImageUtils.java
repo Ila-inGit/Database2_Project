@@ -1,6 +1,7 @@
 package it.polimi.db2.utils;
 
 import java.io.*;
+import java.util.Base64;
 
 public class ImageUtils {
 
@@ -36,6 +37,15 @@ public class ImageUtils {
 		}  
 		
 		return null;
+    }
+    
+    public static String toBase64(byte[] img) {
+		byte[] encodeBase64 = Base64.getEncoder().encode(img);
+		try {
+			return new String(encodeBase64, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			return "";
+		}
     }
 
 }

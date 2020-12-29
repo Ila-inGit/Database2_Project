@@ -2,6 +2,7 @@ package it.polimi.db2.services;
 
 
 import java.util.Date;
+import java.util.List;
 
 import javax.ejb.*;
 import javax.persistence.EntityManager;
@@ -17,6 +18,9 @@ public class ProductService {
 	@PersistenceContext(unitName="db2_project")
 	private EntityManager em;
 	
+	/**
+	 * Get todays product of the day, can be null
+	 */
 	public Product getTodayProduct() {
 		
 		var res = em.createNamedQuery("Product.today", Product.class).getResultList();
@@ -27,7 +31,17 @@ public class ProductService {
 			
 	}
 	
-	public void createProduct(String name, byte[] image, Date displayDate) throws NotAvailableDateException{
+	/**
+	 * Create new product in the database
+	 * 
+	 * @param name name of product
+	 * @param image raw image data, can be null
+	 * @param displayDate date when this product should be displayed, leave null for today
+	 * @throws NotAvailableDateException if displayDate is not available
+	 */
+	public void createProduct(String name, byte[] image, Date displayDate) throws NotAvailableDateException {
+		
+		//TODO: escape name?
 		
 		var today = new Date();
 		
@@ -60,10 +74,27 @@ public class ProductService {
 		em.persist(prod);
 	}
 	
+	/**
+	 * Get current and upcoming products of the day starting from today
+	 */
+	public List<Product> getNextProducts() {
+		return em.createNamedQuery("Product.upcoming", Product.class).getResultList();
+	}
 	
+	/**
+	 * Get products  
+	 */
+	public List<Product> getOldProducts() {
+		return em.createNamedQuery("Product.old", Product.class).getResultList();
+	}
 	
+	/**
+	 * Delete product by id
+	 * @param id id of the produt that should be removed
+	 */
 	public void deleteProduct(int id) {
 		//TODO: usare il remove?
+		//TODO: errore cancellazione
 		em.createQuery("delete from Product p where p.id = :id").setParameter("id", id).getResultList();
 	}
 }

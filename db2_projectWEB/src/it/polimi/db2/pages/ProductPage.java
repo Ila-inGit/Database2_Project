@@ -41,8 +41,7 @@ public class ProductPage extends HttpServlet {
 		String img = null;
 		if(prod != null && prod.getPhoto() != null && prod.getPhoto().length > 0)
 		{
-			byte[] encodeBase64 = Base64.getEncoder().encode(prod.getPhoto());
-			img = new String(encodeBase64, "UTF-8");
+			img = ImageUtils.toBase64(prod.getPhoto());
 			img_extension = ImageUtils.getImageExtension(prod.getPhoto());		
 		}		
 		
