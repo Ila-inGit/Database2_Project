@@ -39,6 +39,7 @@
 <filter-mapping>  
 	<filter-name>authorization</filter-name>  
 	 <url-pattern>/product/new</url-pattern>
+	 <url-pattern>/product/delete</url-pattern>
 	 <url-pattern>/dashboard/*</url-pattern>
 </filter-mapping>  
 

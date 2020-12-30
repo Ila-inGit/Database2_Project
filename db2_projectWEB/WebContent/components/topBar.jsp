@@ -9,7 +9,8 @@
 	    	 <a href="${pageContext.request.contextPath}/dashboard" class="button">Dashboard</a>
 	    </c:when>
 	</c:choose>
-	<a href="#" class="button">Profile</a>
+	<a href="${pageContext.request.contextPath}/leaderboard" class="button">Leaderboard</a>
+	<a href="${pageContext.request.contextPath}/profile" class="button">Profile</a>
 
 
     <a href="${pageContext.request.contextPath}/LogOut" class="button">Logout</a>

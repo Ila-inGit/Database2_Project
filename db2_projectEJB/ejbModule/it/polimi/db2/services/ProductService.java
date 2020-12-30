@@ -104,10 +104,19 @@ public class ProductService {
 	/**
 	 * Delete product by id
 	 * @param id id of the produt that should be removed
+	 * @return true if product is deleted
 	 */
-	public void deleteProduct(int id) {
-		//TODO: usare il remove?
-		//TODO: errore cancellazione
-		em.createQuery("delete from Product p where p.id = :id").setParameter("id", id).getResultList();
+	public boolean deleteProduct(int id) {
+		
+		try 
+		{
+			Product prod = em.createQuery("SELECT p FROM Product p WHERE p.id = :id", Product.class).setParameter("id", id).getSingleResult();
+			em.remove(prod);
+			return true;
+			
+		} catch(NoResultException e) {
+			return false;
+		}
+		
 	}
 }
