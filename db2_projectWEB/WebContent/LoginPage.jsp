@@ -31,7 +31,7 @@
 
             <div class="row">
                 <div class="col-sm-12 col-md-3">
-                   <input type="submit" value="Register">
+                   <input type="submit" value="Login">
                 </div>
 
             </div>
