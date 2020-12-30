@@ -15,12 +15,10 @@ import it.polimi.db2.entities.User;
 import it.polimi.db2.services.UserService;
 
 
-@WebServlet("/")
+@WebServlet("/login")
 public class CheckLogin extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
-	
-	//private TemplateEngine templateEngine;
 	
 	
 	@EJB(name = "it.polimi.db2.services/UserService")
@@ -30,7 +28,15 @@ public class CheckLogin extends HttpServlet {
 		super();
 	}
 
-	
+		
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		request.getRequestDispatcher("/LoginPage.jsp").forward(request, response);
+	}
+
+
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
@@ -75,10 +81,8 @@ public class CheckLogin extends HttpServlet {
 			
 		} else {
 			
-			request.getSession().setAttribute("user", user);
-			
-			request.getRequestDispatcher("/ScoreBoardPage.jsp").forward(request, response);
-			
+			request.getSession().setAttribute("user", user);	
+			response.sendRedirect(request.getContextPath()); // redirect to home page		
 			
 			return;
 		}

@@ -16,7 +16,7 @@ import it.polimi.db2.services.UserService;
 /**
  * Servlet implementation class RegisterUser
  */
-@WebServlet("/RegisterUser")
+@WebServlet("/register")
 public class RegisterUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -27,11 +27,12 @@ public class RegisterUser extends HttpServlet {
 		super();
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		request.getRequestDispatcher("/RegisterPage.jsp").forward(request, response);
 	}
+	
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -59,7 +60,13 @@ public class RegisterUser extends HttpServlet {
 		if (result) {
 			String message = "You are registered...will be redirected to homepage";
 			request.setAttribute("success", message);
-			request.getRequestDispatcher("/RegisterPage.jsp").forward(request, response);
+			
+			// login after register
+			// TODO: return user directly from register
+			var usr = usrService.checkCredentials(usrn, pwd);
+			request.getSession().setAttribute("user", usr);			
+			response.sendRedirect(request.getContextPath()); // redirect to home page
+			
 			return;
 		} else {
 			String message = "Another user with same email!";

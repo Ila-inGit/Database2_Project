@@ -10,7 +10,7 @@
 <body>
 	<h1>Login Page</h1>
 
-	<form action="CheckLogin" method="POST">
+	<form action="login" method="POST">
 		UserName: <input type="text" name="username"> <br>
 		Password: <input type="password" name="pwd"><br>
 		<span class="error">${message}</span> <br>
@@ -20,10 +20,6 @@
 
 <br>
 
-	<fieldset>
-		<form action="RegisterPage.jsp">
-			<input type="submit" value = "Go to Register Page">
-		</form>
-	</fieldset>
+	<a href="${pageContext.request.contextPath}/register">Register</a>
 </body>
 </html>

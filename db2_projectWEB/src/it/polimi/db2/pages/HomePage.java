@@ -6,27 +6,29 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+
+import it.polimi.db2.utils.UserSessionUtils;
 
 /**
- * Servlet implementation class LogOut
+ * Servlet implementation class HomePage
  */
-@WebServlet("/logout")
-public class LogOut extends HttpServlet {
+@WebServlet("/")
+public class HomePage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		
-		HttpSession session = request.getSession(false);
-		
-		if(session != null) {
-			session.invalidate();
+		var usr = UserSessionUtils.getSessionUser(request);
+		if(usr == null)
+		{
+			 request.getRequestDispatcher("/login").forward(request, response);
+		} else {
+			request.setAttribute("usr", usr);
+			request.getRequestDispatcher("/product").forward(request, response);
 		}
 		
-		response.sendRedirect(request.getContextPath()); // redirect to home page	
-		
 	}
+
+
 }

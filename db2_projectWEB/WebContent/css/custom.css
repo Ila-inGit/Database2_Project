@@ -45,3 +45,7 @@ form .row .input-parent input {
     align-items: center;
     text-align: center;
 }
+
+.error { color: red; } 
+
+.success { color: green; }
