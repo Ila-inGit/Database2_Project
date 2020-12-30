@@ -7,6 +7,9 @@ import it.polimi.db2.entities.User;
 
 public class UserSessionUtils {
 
+	/**
+	 * Return current session user, null if none present
+	 */
 	public static User getSessionUser(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		

@@ -1,6 +1,7 @@
 package it.polimi.db2.services;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -78,14 +79,26 @@ public class ProductService {
 	 * Get current and upcoming products of the day starting from today
 	 */
 	public List<Product> getNextProducts() {
-		return em.createNamedQuery("Product.upcoming", Product.class).getResultList();
+		try 
+		{
+			return em.createNamedQuery("Product.upcoming", Product.class).getResultList();
+		
+		} catch(NoResultException e) {
+			return new ArrayList<Product>();
+		}
 	}
 	
 	/**
 	 * Get products  
 	 */
 	public List<Product> getOldProducts() {
-		return em.createNamedQuery("Product.old", Product.class).getResultList();
+		try 
+		{
+			return em.createNamedQuery("Product.old", Product.class).getResultList();
+			
+		} catch(NoResultException e) {
+			return new ArrayList<Product>();
+		}
 	}
 	
 	/**

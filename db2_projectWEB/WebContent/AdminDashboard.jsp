@@ -9,16 +9,33 @@
     <jsp:body>
           <div class="row">
           	
-              <div class="col-sm-10"><h1>Products</h1></div>
+          	    <c:choose>
+                 	<c:when test="${display_old}">
+						<div class="col-sm-10"><h1>Products (Old)</h1></div>
+                 	</c:when>
+                 	<c:otherwise>
+                 		<div class="col-sm-10"><h1>Products</h1></div>
+                 	</c:otherwise>
+                  </c:choose>
+              
               <div class="col-sm-1 flex-vertical-center ">
                   <a href="${pageContext.request.contextPath}/product/new">
                       <span class="tooltip" aria-label="Create new product"><i class="fas fa-plus-circle fa-2x"></i></span>
                   </a>
               </div>
               <div class="col-sm-1 flex-vertical-center ">
-                  <a href="#">
-                      <span class="tooltip" aria-label="See older products"><i class="fas fa-history fa-2x"></i></span>
-                  </a>
+                 <c:choose>
+                 	<c:when test="${display_old}">
+                 		 <a href="${pageContext.request.contextPath}/dashboard">
+		                      <span class="tooltip" aria-label="See upcoming products"><i class="fas fa-calendar-alt fa-2x"></i></span>
+		                  </a>
+                 	</c:when>
+                 	<c:otherwise>
+		                 <a href="${pageContext.request.contextPath}/dashboard?old=true">
+		                      <span class="tooltip" aria-label="See older products"><i class="fas fa-history fa-2x"></i></span>
+		                  </a>
+                 	</c:otherwise>
+                  </c:choose>
               </div>
 
               <div class="col-sm-12">

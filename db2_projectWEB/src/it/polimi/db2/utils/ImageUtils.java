@@ -5,6 +5,12 @@ import java.util.Base64;
 
 public class ImageUtils {
 
+	/**
+	 * Read image from http request and return raw byte[] data
+	 * @param imageInputStream
+	 * @return
+	 * @throws IOException
+	 */
 	public static byte[] readImage(InputStream imageInputStream) throws IOException {
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -24,7 +30,10 @@ public class ImageUtils {
 
 	}
 	
-    // Recognize image type by first byte (this numbers can be found with a search on google)
+    /**
+     *  Recognize image type by first byte (this numbers can be found with a search on google)
+     *  @return gif, png, jpg strings or null if format is not recognised
+     */
     public static String getImageExtension(byte[] img) {
     	
 		switch(img[0]) {
@@ -39,6 +48,10 @@ public class ImageUtils {
 		return null;
     }
     
+    
+    /**
+     * Return raw image encoded in base 64
+     */
     public static String toBase64(byte[] img) {
 		byte[] encodeBase64 = Base64.getEncoder().encode(img);
 		try {

@@ -23,7 +23,16 @@ public class AdminDashboard extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		request.setAttribute("products", productService.getNextProducts());
+		var display_old = request.getParameter("old");
+		if(display_old != null && display_old.equals("true"))
+		{
+			request.setAttribute("products", productService.getOldProducts());
+			request.setAttribute("display_old", true);
+		} else 
+		{
+			request.setAttribute("products", productService.getNextProducts());
+		}
+			
 		
 		request.getRequestDispatcher("/AdminDashboard.jsp").forward(request, response);
 	}

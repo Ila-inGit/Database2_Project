@@ -76,7 +76,7 @@ public class CreateProduct extends HttpServlet {
 			
 			request.setAttribute("message", "Created product: "+ name);
 			request.setAttribute("success", true);
-			request.setAttribute("back_link", request.getContextPath()+"/product");
+			request.setAttribute("back_link", request.getContextPath()+"/dashboard");
 			
 		} 
 		catch(NotAvailableDateException e) 
