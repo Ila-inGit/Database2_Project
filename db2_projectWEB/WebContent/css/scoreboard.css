@@ -1,0 +1,36 @@
+html {
+	height: 100%;
+}
+
+body {
+	height: 100%;
+    background: white;
+}
+
+.scoreBoard-block {
+	min-width: 480px;
+	min-height: 300px;
+	margin: auto;
+	padding: 10px;
+}
+
+.scoreBoard-container {
+	display: flex;
+	margin: auto;
+	width: 100%;
+	height: 100%;
+}
+
+.scoreBoard-color {
+	background: rgb(223, 234, 251);
+	border: 3px solid #0080ff;
+}
+
+.expand-w {
+    width: 100%;
+}
+
+/* h{ */
+/* 	border-bottom: 5px dashed #ff0000; */
+/* 	font-size: 14px; */
+/* } */
