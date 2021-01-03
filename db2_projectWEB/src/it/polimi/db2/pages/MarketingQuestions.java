@@ -3,40 +3,30 @@ package it.polimi.db2.pages;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.WebContext;
-import org.thymeleaf.templatemode.TemplateMode;
-import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
+import org.apache.commons.lang.StringEscapeUtils;
 
+import it.polimi.db2.entities.Answer;
 import it.polimi.db2.entities.Question;
+import it.polimi.db2.services.ProductService;
 import it.polimi.db2.services.QuestionnaireService;
 
-@WebServlet("/Questionnaire")
+@WebServlet("/MarketingQuestions")
 @MultipartConfig
 public class MarketingQuestions extends HttpServlet {
-	//TODO da sistemare per jsp
+	
 	private static final long serialVersionUID = 1L;
-	private TemplateEngine templateEngine;
+	private QuestionnaireService questService;
 	
 	public MarketingQuestions() {
 		super();
-	}
-	
-	public void init() throws ServletException {
-		ServletContext servletContext = getServletContext();
-		ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
-		templateResolver.setTemplateMode(TemplateMode.HTML);
-		this.templateEngine = new TemplateEngine();
-		this.templateEngine.setTemplateResolver(templateResolver);
-		templateResolver.setSuffix(".html");
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -47,19 +37,39 @@ public class MarketingQuestions extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		//TODO ho bisogno dell'id del prodotto di oggi
+		//TODO da sistemare
 		int prodIdToday = 0;
+		int questionId = 0;
+		int userId = 0;
 		
-		String path = "/WEB-INF/MarketingQuestions.html";
-		List<Question> allQuestions;
-		QuestionnaireService questService = null;
+		List<Question> allQuestions = null;
+		String answer = null;
+		
 		questService = (QuestionnaireService) request.getSession().getAttribute("questionnaireService");
-		ServletContext servletContext = getServletContext();
-		final WebContext webContext = new WebContext(request, response, servletContext, request.getLocale());
-		allQuestions = questService.findQuestionsOfTheProduct(prodIdToday);
-		webContext.setVariable("questions", allQuestions);
-		webContext.setVariable("prodIdToday", prodIdToday);
-		webContext.setVariable("currentPage", questService.getCurrentPage());
-		templateEngine.process(path, webContext, response.getWriter());
+		
+		if(questService != null) {
+			allQuestions = questService.findQuestionsOfTheProduct(prodIdToday);
+
+			if (allQuestions != null) {
+				request.setAttribute("MarketingQuestions", allQuestions);
+				request.getRequestDispatcher("/MarketingQuestionsPage.jsp").forward(request, response);
+			} else {
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "There are no questions");
+			}
+
+			answer = StringEscapeUtils.escapeJava(request.getParameter("answer"));
+
+			if (answer == null || answer.isBlank()) {
+				String message = "Missing answer";
+				request.setAttribute("message", message);
+				request.getRequestDispatcher("/MarketingQuestions.jsp").forward(request, response);
+				return;
+			}
+			
+			questService.marketingAnswers(questionId, userId, answer);
+			
+		} else {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Questionnaire Service is not responding");
+		}
 	}
 }

@@ -25,11 +25,11 @@ public class Answer implements Serializable{
 	private User user;
 
     @Column(name = "body", nullable = false)
-	private char body[];
+	private String body;
 
     public Answer() {}
 
-    public Answer(Question quest, User user, char[] body){
+    public Answer(Question quest, User user, String body){
         this.quest = quest;
         this.user = user;
         this.body = body;
@@ -47,7 +47,7 @@ public class Answer implements Serializable{
 
 	public void setUser(User user) {this.user = user;}
 
-    public char[] getBody() {return body;}
+    public String getBody() {return body;}
 
-    public void setBody(char[] body) {this.body = body;}
+    public void setBody(String body) {this.body = body;}
 }
