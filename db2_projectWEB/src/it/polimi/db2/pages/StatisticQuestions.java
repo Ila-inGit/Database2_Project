@@ -2,6 +2,7 @@ package it.polimi.db2.pages;
 
 import java.io.IOException;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,9 +14,10 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 import it.polimi.db2.services.QuestionnaireService;
 
-@WebServlet("/StatisticQuestions")
+@WebServlet("/questions/statistic")
 public class StatisticQuestions extends HttpServlet {
 	
+	@EJB(name = "it.polimi.db2.services/QuestionnaireService")
 	private static final long serialVersionUID = 1L;
 	QuestionnaireService questService;
 	

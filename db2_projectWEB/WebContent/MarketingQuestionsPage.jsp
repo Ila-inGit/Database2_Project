@@ -13,22 +13,23 @@
 <body>
 	<h1>Marketing Questions</h1>
 	<br>
-	<%-- <span class="error">${message}</span> <br> --%>
-	
-	
-	<c:forEach items="${marketingQuestions}" var="question">
-		<%
-			numberQ++;
-		%>
+
+	<form method="get" enctype="multipart/form-data">
+		<fieldset>
+			<c:forEach items="${marketingQuestions}" var="question">
+				<%
+					numberQ++;
+				%>
 			Question <%=numberQ%>
-		<br>
-		<c:out value="${question.body}" />
-		<br>
-		<form action="MarketingQuestions" method="post">
-			<input type="text" name="answer"> <br>
-		</form>
-	</c:forEach>
-	<br>
+				<br>
+				<c:out value="${question.body}" />
+				<br>
+				<input type="text" id="answer" name="answer">
+				<br>
+			</c:forEach>
+		</fieldset>
+	</form>
+
 
 	<form action="StatisticQuestionsPage.jsp">
 		<input type="submit" value="Next">

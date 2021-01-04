@@ -12,8 +12,8 @@
 
 	<h3>What is your gender?</h3>
 	<form method="get">
-		<input type="checkbox" name="gender" value="female">female
-		<input type="checkbox" name="gender" value="male">male
+		<input type="radio" name="gender" value="female">female
+		<input type="radio" name="gender" value="male">male
 	</form>
 	
 	<h3>What is your age?</h3>
@@ -23,11 +23,12 @@
 
 	<h3>What is your experience level?</h3>
 	<form method="get">
-		<input type="checkbox" name="expLvl" value="low">Low 
-		<input type="checkbox" name="expLvl" value="medium">Medium 
-		<input type="checkbox" name="expLvl" value="high">High
+		<input type="radio" name="expLvl" value="low">Low 
+		<input type="radio" name="expLvl" value="medium">Medium 
+		<input type="radio" name="expLvl" value="high">High
 	</form>
 
+	<br>
 
 	<form action="GreetingsPage.jsp">
 		<input type="submit" value="Submit">

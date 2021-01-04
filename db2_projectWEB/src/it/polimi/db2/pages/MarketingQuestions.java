@@ -3,6 +3,7 @@ package it.polimi.db2.pages;
 import java.io.IOException;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -18,10 +19,11 @@ import it.polimi.db2.entities.Question;
 import it.polimi.db2.services.ProductService;
 import it.polimi.db2.services.QuestionnaireService;
 
-@WebServlet("/MarketingQuestions")
+@WebServlet("/questions")
 @MultipartConfig
 public class MarketingQuestions extends HttpServlet {
 	
+	@EJB(name = "it.polimi.db2.services/QuestionnaireService")
 	private static final long serialVersionUID = 1L;
 	private QuestionnaireService questService;
 	
@@ -30,11 +32,6 @@ public class MarketingQuestions extends HttpServlet {
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		doPost(request, response);
-	}
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
 		//TODO da sistemare
@@ -51,7 +48,7 @@ public class MarketingQuestions extends HttpServlet {
 			allQuestions = questService.findQuestionsOfTheProduct(prodIdToday);
 
 			if (allQuestions != null) {
-				request.setAttribute("MarketingQuestions", allQuestions);
+				request.setAttribute("marketingQuestions", allQuestions);
 				request.getRequestDispatcher("/MarketingQuestionsPage.jsp").forward(request, response);
 			} else {
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "There are no questions");

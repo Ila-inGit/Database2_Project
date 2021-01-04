@@ -9,7 +9,6 @@
 <body>
 
 	<h3>Thank you for submitting your questionnaire.</h3>
-	<br>
 	<h3>Have a nice day!</h3>
 	
 	<a href="${pageContext.request.contextPath}/product">Return to the product of the day</a>
