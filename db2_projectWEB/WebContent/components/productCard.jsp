@@ -13,17 +13,21 @@
         </c:choose>
 
         <div class="row">
-            <div class="col-sm-12 flex-align-center">
-           		 <c:choose>
-	           		 <c:when test="${product.getQuestions().size() > 0}">
-	            		<a href="#" class="button large" style="width: 85%;">See questionnaire</a>
-	            	</c:when>
-	            	<c:when test="${FormatUtils.isNextOrTodayDate(product.getDisplayDate())}">
-	            		<a href="#" class="button large" style="width: 85%;">Create questionnaire</a>
-	            	</c:when>
-            	</c:choose>
-            </div>
-            <div class="col-sm-12 flex-align-center">
+			<div class="col-sm-12 flex-align-center">
+				<c:choose>
+					<c:when test="${product.getQuestions().size() > 0}">
+						<a href="#" class="button large" style="width: 85%;">See questionnaire</a>
+					</c:when>
+				</c:choose>
+				<c:choose>
+					<c:when
+						test="${FormatUtils.isNextOrTodayDate(product.getDisplayDate())}">
+						<a href="${pageContext.request.contextPath}/questions/new?id=${product.getId()}"
+							class="button large" style="width: 85%;">Create a question</a>
+					</c:when>
+				</c:choose>
+			</div>
+			<div class="col-sm-12 flex-align-center">
             	<a href="${pageContext.request.contextPath}/product/delete?id=${product.getId()}" class="button secondary large" style="width: 85%;">Delete</a>
             </div>
         </div>

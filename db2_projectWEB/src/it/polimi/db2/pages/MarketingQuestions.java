@@ -15,7 +15,9 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringEscapeUtils;
 
 import it.polimi.db2.entities.Answer;
+import it.polimi.db2.entities.Product;
 import it.polimi.db2.entities.Question;
+import it.polimi.db2.entities.User;
 import it.polimi.db2.services.ProductService;
 import it.polimi.db2.services.QuestionnaireService;
 
@@ -34,10 +36,13 @@ public class MarketingQuestions extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
+		var usr = (User) request.getAttribute("usr");
+		var product = (Product) request.getAttribute("product");
+		
 		//TODO da sistemare
-		int prodIdToday = 0;
+		int prodIdToday = product.getId();
 		int questionId = 0;
-		int userId = 0;
+		int userId = usr.getId();
 		
 		List<Question> allQuestions = null;
 		String answer = null;

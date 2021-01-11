@@ -22,7 +22,7 @@
 				%>
 			Question <%=numberQ%>
 				<br>
-				<c:out value="${question.body}" />
+				<h3>${question.getBody()}"</h3>
 				<br>
 				<input type="text" id="answer" name="answer">
 				<br>
