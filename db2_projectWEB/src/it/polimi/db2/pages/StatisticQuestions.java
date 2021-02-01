@@ -40,10 +40,21 @@ public class StatisticQuestions extends HttpServlet {
 		
 		if(questService != null) {
 			userGender = StringEscapeUtils.escapeJava(request.getParameter("gender"));
+
 			age = Integer.parseInt(request.getParameter("age"));
+			if (age < 0) {
+				request.setAttribute("message", "Invalid age");
+			}
+			
 			level = StringEscapeUtils.escapeJava(request.getParameter("gender"));
 			
 			questService.statisticAnswer(prodId, userId, userGender, age, level);
+			
+			request.setAttribute("message", "Thank you for submitting your questionnaire.");
+			request.setAttribute("success", true);
+			
+			request.setAttribute("back_link", request.getContextPath() + "/product");
+			//request.getRequestDispatcher("/ResultPage.jsp").forward(request, response);
 		} else {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Questionnaire Service is not responding");
 		}

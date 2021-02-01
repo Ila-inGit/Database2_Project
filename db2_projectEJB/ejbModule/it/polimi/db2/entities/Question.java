@@ -7,7 +7,9 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "questions", schema = "db2_project")
-@NamedQueries({@NamedQuery(name = "Question.findByProd", query = "Select q FROM Question q WHERE q.prodId.id = :prodId")})
+@NamedQueries({
+		@NamedQuery(name = "Question.findByProd", query = "Select q FROM Question q WHERE q.prodId.id = :prodId"),
+		@NamedQuery(name = "Question.findById", query = "Select q FROM Question q WHERE q.id = :id")})
 public class Question implements Serializable{
     private static final long serialVersionUID = 1L;
 

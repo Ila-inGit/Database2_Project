@@ -10,16 +10,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.commons.lang.StringEscapeUtils;
-
-import it.polimi.db2.entities.Answer;
 import it.polimi.db2.entities.Product;
 import it.polimi.db2.entities.Question;
-import it.polimi.db2.entities.User;
-import it.polimi.db2.services.ProductService;
 import it.polimi.db2.services.QuestionnaireService;
+import it.polimi.db2.utils.UserSessionUtils;
 
 @WebServlet("/questions")
 @MultipartConfig
@@ -36,42 +30,43 @@ public class MarketingQuestions extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		var usr = (User) request.getAttribute("usr");
+		var usr = UserSessionUtils.getSessionUser(request);
 		var product = (Product) request.getAttribute("product");
 		
-		//TODO da sistemare
 		int prodIdToday = product.getId();
-		int questionId = 0;
+		int[] questionIds = null;
 		int userId = usr.getId();
 		
 		List<Question> allQuestions = null;
-		String answer = null;
+		String[] answers = null;
 		
 		questService = (QuestionnaireService) request.getSession().getAttribute("questionnaireService");
 		
-		if(questService != null) {
-			allQuestions = questService.findQuestionsOfTheProduct(prodIdToday);
+		allQuestions = questService.findQuestionsOfTheProduct(prodIdToday);
 
-			if (allQuestions != null) {
-				request.setAttribute("marketingQuestions", allQuestions);
-				request.getRequestDispatcher("/MarketingQuestionsPage.jsp").forward(request, response);
-			} else {
-				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "There are no questions");
+		if (allQuestions != null) {
+			questionIds = new int[allQuestions.size()];
+			for(int i = 0; i <= allQuestions.size() - 1; i++) {
+				questionIds[i] = allQuestions.get(i).getId();
 			}
 
-			answer = StringEscapeUtils.escapeJava(request.getParameter("answer"));
-
-			if (answer == null || answer.isBlank()) {
-				String message = "Missing answer";
-				request.setAttribute("message", message);
-				request.getRequestDispatcher("/MarketingQuestions.jsp").forward(request, response);
-				return;
-			}
-			
-			questService.marketingAnswers(questionId, userId, answer);
-			
+			request.setAttribute("marketingQuestions", allQuestions);
+			request.getRequestDispatcher("/MarketingQuestionsPage.jsp").forward(request, response);
 		} else {
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Questionnaire Service is not responding");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "There are no questions");
 		}
+
+		answers = request.getParameterValues("answers");
+
+		/*if (answers == null || answers.isBlank()) {
+			String message = "Missing answer";
+			request.setAttribute("message", message);
+			request.getRequestDispatcher("/MarketingQuestions.jsp").forward(request, response);
+			return;
+		}*/
+
+		questService.marketingAnswers(questionIds, userId, answers);
+
+		//request.getRequestDispatcher("/StatisticQuestionsPage.jsp").forward(request, response);
 	}
 }

@@ -24,8 +24,6 @@ public class QuestionnaireService {
 	private List<Answer> answersList = null;
 	private StatisticAnswer statAnswer;
 	
-	public QuestionnaireService() {}
-	
 	/**
 	 * Method to find all the questions about the product of the day
 	 * @param prodId product ID
@@ -39,16 +37,18 @@ public class QuestionnaireService {
 		return results;
 	}
 	
-	public void marketingAnswers (int questionId, int userId, String answerBody) {
-		Answer answer = new Answer();
-		Question question = em.find(Question.class, questionId);
-		User user = em.find(User.class, userId);
-		
-		answer.setBody(answerBody);
-		answer.setQuest(question);
-		answer.setUser(user);
-		
-		answersList.add(answer);
+	public void marketingAnswers (int[] questionIds, int userId, String[] answersBody) {
+		for (int i = 0; i <= answersBody.length - 1; i++) {
+			Answer answer = new Answer();
+			Question question = em.find(Question.class, questionIds[i]);
+			User user = em.find(User.class, userId);
+
+			answer.setBody(answersBody[i]);
+			answer.setQuest(question);
+			answer.setUser(user);
+
+			answersList.add(answer);
+		}
 		//Ottengo le risposte delle domande sul prodotto e me le memorizzo
 	}
 	
