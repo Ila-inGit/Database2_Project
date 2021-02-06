@@ -16,7 +16,7 @@ public class Answer implements Serializable{
 
     // bi-directional relationship with Question
 	@ManyToOne (fetch = FetchType.LAZY)
-	@JoinColumn(name = "quetionID")
+	@JoinColumn(name = "questionID")
 	private Question quest;
 	
 	// bi-directional relationship with User
