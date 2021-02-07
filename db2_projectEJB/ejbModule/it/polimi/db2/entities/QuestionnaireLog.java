@@ -51,4 +51,8 @@ public class QuestionnaireLog implements Serializable {
 	public Date getOpenDate() {
 		return openDate;
 	}
+	
+	public void setOpenDate(Date time) {
+		openDate = time;
+	}
 }

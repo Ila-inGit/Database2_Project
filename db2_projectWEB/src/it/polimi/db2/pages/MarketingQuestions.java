@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.inject.Inject;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -13,15 +16,20 @@ import javax.servlet.http.HttpServletResponse;
 import it.polimi.db2.entities.Product;
 import it.polimi.db2.entities.Question;
 import it.polimi.db2.entities.User;
+import it.polimi.db2.services.ProductService;
 import it.polimi.db2.services.QuestionnaireService;
 
 @WebServlet("/questions")
 @MultipartConfig
 public class MarketingQuestions extends HttpServlet {
 	
-	@EJB(name = "it.polimi.db2.services/QuestionnaireService")
 	private static final long serialVersionUID = 1L;
+	
+	@Inject
 	private QuestionnaireService questService;
+	
+	@EJB(name = "it.polimi.db2.services/ProductService")
+	private ProductService prodService;
 	
 	public MarketingQuestions() {
 		super();
@@ -31,7 +39,8 @@ public class MarketingQuestions extends HttpServlet {
 			throws ServletException, IOException {
 		
 		var usr = (User) request.getAttribute("usr");
-		var product = (Product) request.getAttribute("product");
+		var product = prodService.getTodayProduct();
+		
 		
 		int prodIdToday = product.getId();
 		int[] questionIds = null;
@@ -40,7 +49,14 @@ public class MarketingQuestions extends HttpServlet {
 		List<Question> allQuestions = null;
 		String[] answers = null;
 		
-		questService = (QuestionnaireService) request.getSession().getAttribute("questionnaireService");
+
+		try {
+			questService = (QuestionnaireService)new InitialContext().lookup("java:/openejb/local/QuestionnaireServiceLocalBean");
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 		allQuestions = questService.findQuestionsOfTheProduct(prodIdToday);
 

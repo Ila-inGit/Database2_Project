@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS  Questions (
 ALTER TABLE Questions ADD FOREIGN KEY (prodId) REFERENCES Products (id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 CREATE TABLE IF NOT EXISTS Answers (
-  id INT PRIMARY KEY,
+  id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
   userId INT,
   questionId INT,
   body varchar(255) NOT NULL
@@ -51,7 +51,7 @@ ALTER TABLE Answers ADD FOREIGN KEY (questionId) REFERENCES Questions (id) ON UP
 
 
 CREATE TABLE IF NOT EXISTS StatisticAnswers (
-  id INT PRIMARY KEY,
+  id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
   userId INT,
   prodId INT,
   gender ENUM('male', 'famale', 'helicopter') NOT NULL,
@@ -65,7 +65,7 @@ ALTER TABLE StatisticAnswers ADD FOREIGN KEY (prodId) REFERENCES Products (id) O
 
 
 CREATE TABLE IF NOT EXISTS Score (
-  id INT PRIMARY KEY,
+  id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
   userId INT,
   prodId INT,
   points INT CHECK (points > 0)
@@ -77,7 +77,7 @@ ALTER TABLE Score ADD FOREIGN KEY (prodId) REFERENCES Products (id) ON UPDATE CA
 
 
 CREATE TABLE IF NOT EXISTS QuestionnaireLogs (
-  id INT PRIMARY KEY,
+  id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
   userId INT,
   prodId INT,
   openDate DATETIME NOT NULL DEFAULT NOW()

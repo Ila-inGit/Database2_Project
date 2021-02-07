@@ -1,9 +1,13 @@
 package it.polimi.db2.services;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Remove;
+import javax.ejb.Startup;
 import javax.ejb.Stateful;
+import javax.enterprise.context.SessionScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
@@ -22,7 +26,7 @@ public class QuestionnaireService {
 	
 	@PersistenceContext(unitName = "db2_project", type = PersistenceContextType.EXTENDED)
 	private EntityManager em;
-	private List<Answer> answersList = null;
+	private List<Answer> answersList = new ArrayList<Answer>();
 	private StatisticAnswer statAnswer;
 	
 	/**
@@ -45,6 +49,7 @@ public class QuestionnaireService {
 		
 		log.setUser(user);
 		log.setProduct(prod);
+		log.setOpenDate( new Date());
 
 		user.addQLog(log);
 		prod.addQLogs(log);
@@ -86,12 +91,15 @@ public class QuestionnaireService {
 		else if (expLvl.equals("high"))
 			level = ExpLvl.high;
 		
+		statAnswer = new StatisticAnswer();
+		
 		statAnswer.setProd(prod);
 		statAnswer.setUser(user);
 		statAnswer.setAge(age);
 		statAnswer.setExpLvl(level);
 		statAnswer.setGender(userGender);
 		//Ottengo le risposte statistiche e le memorizzo
+		
 	}
 	
 	public void submit () {
@@ -114,6 +122,7 @@ public class QuestionnaireService {
 		
 		em.persist(user);
 		em.persist(prod);
+		em.persist(statAnswer);
 		//I dati memorizzati, li "pusho" sul database
 	}
 	
