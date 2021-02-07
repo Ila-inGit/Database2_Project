@@ -53,7 +53,9 @@ public class CreateProduct extends HttpServlet {
 		String name = StringEscapeUtils.escapeHtml(request.getParameter("fname"));
 		if(name == null || name.length() < 1)
 		{
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid product name");
+			request.setAttribute("message", "Invalid product name");
+			request.setAttribute("back_link", request.getContextPath()+"/product/new");
+			request.getRequestDispatcher("/ResultPage.jsp").forward(request, response);
 			return;
 		}
 		
