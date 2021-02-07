@@ -7,8 +7,8 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name="QuestionaireLogs")
-public class QuestionaireLog implements Serializable {
+@Table(name="QuestionnaireLogs")
+public class QuestionnaireLog implements Serializable {
 
 
 	private static final long serialVersionUID = 1L;
@@ -51,6 +51,4 @@ public class QuestionaireLog implements Serializable {
 	public Date getOpenDate() {
 		return openDate;
 	}
-	
-
 }

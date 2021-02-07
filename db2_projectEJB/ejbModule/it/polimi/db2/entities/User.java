@@ -54,13 +54,11 @@ public class User implements Serializable{
 	
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER,  cascade = { CascadeType.PERSIST, CascadeType.REMOVE,
 			CascadeType.REFRESH }, orphanRemoval = true )
-	private List<QuestionaireLog> qLog;
+	private List<QuestionnaireLog> qLog;
 	
 
 	
-	public User() {
-		
-	}
+	public User() {}
 
 	public int getId() {
 		return id;
@@ -125,6 +123,30 @@ public class User implements Serializable{
 	public void setScores(List<Score> scores) {
 		this.scores = scores;
 	}
+	
+	public List<Answer> getAnswers() {
+		return answers;
+	}
+
+	public void setAnswers(List<Answer> answers) {
+		this.answers = answers;
+	}
+	
+	public List<StatisticAnswer> getStatAnswers() {
+		return statAns;
+	}
+
+	public void setStatAnswers(List<StatisticAnswer> statAns) {
+		this.statAns = statAns;
+	}
+	
+	public List<QuestionnaireLog> getQLogs() {
+		return qLog;
+	}
+
+	public void setQLogs(List<QuestionnaireLog> qLog) {
+		this.qLog = qLog;
+	}
 
 	
 	public void addReview(Review review) {
@@ -146,6 +168,32 @@ public class User implements Serializable{
 		getScores().remove(score);
 	}
 	
+	public void addAnswer(Answer answer) {
+		getAnswers().add(answer);
+		answer.setUser(this);
+	}
+	
+	public void removeAnswer(Answer answer) {
+		getAnswers().remove(answer);
+	}
+	
+	public void addStatAns(StatisticAnswer statAns) {
+		getStatAnswers().add(statAns);
+		statAns.setUser(this);
+	}
+	
+	public void removeStatAns(StatisticAnswer statAns) {
+		getStatAnswers().remove(statAns);
+	}
+	
+	public void addQLog(QuestionnaireLog qLog) {
+		getQLogs().add(qLog);
+		qLog.setUser(this);
+	}
+	
+	public void removeQLog(QuestionnaireLog qLog) {
+		getQLogs().remove(qLog);
+	}
 }
 
 

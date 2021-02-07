@@ -13,14 +13,15 @@ import it.polimi.db2.entities.ExpLvl;
 import it.polimi.db2.entities.Gender;
 import it.polimi.db2.entities.Product;
 import it.polimi.db2.entities.Question;
+import it.polimi.db2.entities.QuestionnaireLog;
 import it.polimi.db2.entities.StatisticAnswer;
 import it.polimi.db2.entities.User;
 
 @Stateful
 public class QuestionnaireService {
+	
 	@PersistenceContext(unitName = "db2_project", type = PersistenceContextType.EXTENDED)
 	private EntityManager em;
-	private int currentPage = 0;
 	private List<Answer> answersList = null;
 	private StatisticAnswer statAnswer;
 	
@@ -35,6 +36,21 @@ public class QuestionnaireService {
 		if (results.isEmpty())
 			return null;
 		return results;
+	}
+	
+	public void createQuestionnaireLog(int userId, int prodId) {
+		User user = em.find(User.class, userId);
+		Product prod = em.find(Product.class, prodId);
+		QuestionnaireLog log = new QuestionnaireLog();
+		
+		log.setUser(user);
+		log.setProduct(prod);
+
+		user.addQLog(log);
+		prod.addQLogs(log);
+		
+		em.persist(user);
+		em.persist(prod);
 	}
 	
 	public void marketingAnswers (int[] questionIds, int userId, String[] answersBody) {
@@ -80,9 +96,24 @@ public class QuestionnaireService {
 	
 	public void submit () {
 		for (Answer an : answersList) {
-			em.persist(an);
+			User user = an.getUser();
+			Question question = an.getQuest();
+			
+			user.addAnswer(an);
+			question.addAnswer(an);
+			
+			em.persist(user);
+			em.persist(question);
 		}
-		em.persist(statAnswer);
+		
+		User user = statAnswer.getUser();
+		Product prod = statAnswer.getProd();
+		
+		user.addStatAns(statAnswer);
+		prod.addStatAnswer(statAnswer);
+		
+		em.persist(user);
+		em.persist(prod);
 		//I dati memorizzati, li "pusho" sul database
 	}
 	

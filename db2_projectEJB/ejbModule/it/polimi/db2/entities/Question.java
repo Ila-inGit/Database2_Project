@@ -48,4 +48,21 @@ public class Question implements Serializable{
     public String getBody() {return body;}
 
     public void setBody(String body) {this.body = body;}
+    
+    public List<Answer> getAnswers() {
+		return answers;
+	}
+
+	public void setAnswers(List<Answer> answers) {
+		this.answers = answers;
+	}
+	
+	public void addAnswer(Answer answer) {
+		getAnswers().add(answer);
+		answer.setQuest(this);
+	}
+	
+	public void removeAnswer(Answer answer) {
+		getAnswers().remove(answer);
+	}
 }

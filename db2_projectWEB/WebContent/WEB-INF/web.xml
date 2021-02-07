@@ -27,6 +27,7 @@
 	 <url-pattern>/product/*</url-pattern>
 	 <url-pattern>/dashboard/*</url-pattern>
 	 <url-pattern>/scoreboard/*</url-pattern>
+	 <url-pattern>/questions/*</url-pattern>
 </filter-mapping>  
 
 <filter-mapping>  
@@ -34,6 +35,7 @@
 	 <url-pattern>/product/new</url-pattern>
 	 <url-pattern>/product/delete</url-pattern>
 	 <url-pattern>/dashboard/*</url-pattern>
+	 <url-pattern>/questions/*</url-pattern>
 </filter-mapping>  
 
 </web-app>

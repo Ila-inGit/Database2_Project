@@ -62,7 +62,7 @@ public class Product implements Serializable {
 	//bi-directional many-to-one association to Score
 		@OneToMany(mappedBy = "prod", fetch = FetchType.EAGER,  cascade = { CascadeType.PERSIST, CascadeType.REMOVE,
 				CascadeType.REFRESH }, orphanRemoval = true )
-		private List<QuestionaireLog> qLog;
+		private List<QuestionnaireLog> qLog;
 
 	public List<Review> getReviews() {
 		return reviews;
@@ -97,6 +97,14 @@ public class Product implements Serializable {
 
 	public void setStatAnswer(List<StatisticAnswer> statAns) {
 		this.statAns = statAns;
+	}
+	
+	public List<QuestionnaireLog> getQLogs() {
+		return qLog;
+	}
+
+	public void setQLogs(List<QuestionnaireLog> qLog) {
+		this.qLog = qLog;
 	}
 
 	public int getId() {
@@ -167,5 +175,14 @@ public class Product implements Serializable {
 	
 	public void removeStatAnswer(StatisticAnswer statAnswer) {
 		getStatAnswers().remove(statAnswer);
+	}
+	
+	public void addQLogs(QuestionnaireLog qLog) {
+		getQLogs().add(qLog);
+		qLog.setProduct(this);
+	}
+	
+	public void removeQLogs(QuestionnaireLog qLog) {
+		getQLogs().remove(qLog);
 	}
 }

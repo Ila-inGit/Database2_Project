@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import it.polimi.db2.entities.Product;
 import it.polimi.db2.entities.Question;
+import it.polimi.db2.entities.User;
 import it.polimi.db2.services.QuestionnaireService;
-import it.polimi.db2.utils.UserSessionUtils;
 
 @WebServlet("/questions")
 @MultipartConfig
@@ -30,7 +30,7 @@ public class MarketingQuestions extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		var usr = UserSessionUtils.getSessionUser(request);
+		var usr = (User) request.getAttribute("usr");
 		var product = (Product) request.getAttribute("product");
 		
 		int prodIdToday = product.getId();
@@ -45,6 +45,8 @@ public class MarketingQuestions extends HttpServlet {
 		allQuestions = questService.findQuestionsOfTheProduct(prodIdToday);
 
 		if (allQuestions != null) {
+			questService.createQuestionnaireLog(userId, prodIdToday);
+			
 			questionIds = new int[allQuestions.size()];
 			for(int i = 0; i <= allQuestions.size() - 1; i++) {
 				questionIds[i] = allQuestions.get(i).getId();
@@ -58,15 +60,7 @@ public class MarketingQuestions extends HttpServlet {
 
 		answers = request.getParameterValues("answers");
 
-		/*if (answers == null || answers.isBlank()) {
-			String message = "Missing answer";
-			request.setAttribute("message", message);
-			request.getRequestDispatcher("/MarketingQuestions.jsp").forward(request, response);
-			return;
-		}*/
-
 		questService.marketingAnswers(questionIds, userId, answers);
 
-		//request.getRequestDispatcher("/StatisticQuestionsPage.jsp").forward(request, response);
 	}
 }
