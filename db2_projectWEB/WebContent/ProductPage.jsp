@@ -15,21 +15,36 @@
 		             </div>
 		             	<c:choose>
 						    <c:when test="${usr.isAdmin() == true}">
-					            <div class="col-sm-1 flex-vertical-center ">
+						    
+						    	<div class="col-sm-1 flex-vertical-center ">
+					                <a href="${pageContext.request.contextPath}/product/new">
+					                    <span class="tooltip" aria-label="Create new product"><i class="fas fa-plus-circle fa-2x"></i></span>
+					                </a>
+					            </div>
+					            <div class="col-sm-1 flex-vertical-center">
 					            	<c:choose>
 					            		<c:when test="${product.getQuestions().size() > 0}">
-							                <a href="${pageContext.request.contextPath}/product/new">
-							                    <span class="tooltip" aria-label="See questionnaire results"><i class="fas fa-poll fa-2x"></i></span>
+							                <a href="#">
+							                    <span class="tooltip" aria-label="See poll results"><i class="fas fa-poll fa-2x"></i></span>
 							                </a>
 						                </c:when>
 					                </c:choose>
 					            </div>
-					            <div class="col-sm-1 flex-vertical-center ">
-					                <a href="${pageContext.request.contextPath}/product/delete?id=${product.getId()}">
-					                    <span class="tooltip" aria-label="Delete this product"><i class="fas fa-trash fa-2x"></i></span>
-					                </a>
-					            </div>
+					            
 						    </c:when>
+						    <c:otherwise>
+						    		<c:choose>
+					            		<c:when test="${product.getQuestions().size() > 0}">
+					            			<div class="col-sm-1 flex-vertical-center ">
+								                <a href="${pageContext.request.contextPath}/questions">
+								                    <span class="tooltip" aria-label="Answer questions"><i class="fas fa-poll fa-2x"></i></span>
+								                </a>
+							                </div>
+						                </c:when>
+					                </c:choose> 
+						    
+						    </c:otherwise>
+						    
 						</c:choose>
 		
 		             <div class="col-sm-12 img-container">

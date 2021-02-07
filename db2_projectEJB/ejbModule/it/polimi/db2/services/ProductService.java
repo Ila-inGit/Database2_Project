@@ -103,6 +103,7 @@ public class ProductService {
 		}
 	}
 	
+	
 	/**
 	 * Delete product by id
 	 * @param id id of the produt that should be removed
@@ -112,7 +113,15 @@ public class ProductService {
 		
 		try 
 		{
-			Product prod = em.createQuery("SELECT p FROM Product p WHERE p.id = :id", Product.class).setParameter("id", id).getSingleResult();
+			
+			Product prod = em.find(Product.class, id);
+			
+			Date today = new Date();
+			
+			//prevent delete of future products that have a question associated
+			if(prod.getDisplayDate().after(today) || DateUtils.isSameDay(prod.getDisplayDate(), today))
+				return false;
+			
 			em.remove(prod);
 			return true;
 			
