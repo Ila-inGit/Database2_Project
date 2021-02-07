@@ -11,6 +11,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TemporalType;
 
+import org.apache.commons.lang3.time.DateUtils;
+
 import it.polimi.db2.entities.*;
 import it.polimi.db2.exceptions.NotAvailableDateException;
 
@@ -50,7 +52,7 @@ public class ProductService {
 		
 		
 		// can't create products in the past
-		if(displayDate.before(today))
+		if(displayDate.before(today) && !DateUtils.isSameDay(today, displayDate))
 			throw new NotAvailableDateException("Selected date is in the past.");
 	
 		
