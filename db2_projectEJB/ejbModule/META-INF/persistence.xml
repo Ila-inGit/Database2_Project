@@ -9,7 +9,7 @@
 		<class>it.polimi.db2.entities.ForbiddenWord</class>
 		<class>it.polimi.db2.entities.Product</class>
 		<class>it.polimi.db2.entities.Question</class>
-		<class>it.polimi.db2.entities.QuestionaireLog</class>
+		<class>it.polimi.db2.entities.QuestionnaireLog</class>
 		<class>it.polimi.db2.entities.Review</class>
 		<class>it.polimi.db2.entities.Score</class>
 		<class>it.polimi.db2.entities.StatisticAnswer</class>

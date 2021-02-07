@@ -40,8 +40,8 @@ DELIMITER ;
 -- 
 
 
-DELIMITER \\
-CREATE TRIGGER `answers_AFTER_DELETE` AFTER DELETE ON `answers` FOR EACH ROW BEGIN
+DELIMITER //
+CREATE TRIGGER answers_AFTER_DELETE AFTER DELETE ON answers FOR EACH ROW BEGIN
 	DECLARE V INTEGER;
 	SELECT DISTINCT Q.prodId into V
 	FROM answers as A JOIN questions as Q ON A.questionId = Q.id
@@ -51,19 +51,19 @@ CREATE TRIGGER `answers_AFTER_DELETE` AFTER DELETE ON `answers` FOR EACH ROW BEG
     WHERE S.userId = old.userId and S.prodId = V and S.points = 1
     ORDER BY S.userId, S.prodId DESC
     LIMIT 1;
-END
+END //
 DELIMITER ;
 
 -------------------------------------------------------------------------------------------
 -- 
 
 
-DELIMITER \\
-CREATE  TRIGGER `statisticanswers_AFTER_DELETE` AFTER DELETE ON `statisticanswers` FOR EACH ROW BEGIN
+DELIMITER //
+CREATE  TRIGGER statisticanswers_AFTER_DELETE AFTER DELETE ON statisticanswers FOR EACH ROW BEGIN
 	DELETE FROM score as S
     WHERE S.userId = old.userId and S.prodId = old.prodId and S.points = 2
     ORDER BY S.userId, S.prodId DESC
     LIMIT 1;
-END
+END //
 
 DELIMITER ;
