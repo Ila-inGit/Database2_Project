@@ -45,7 +45,7 @@ public class DeleteQuestion extends HttpServlet {
 		}
 		
 		
-		request.setAttribute("back_link", request.getContextPath()+"/dashboard");
+		request.setAttribute("back_link", request.getContextPath()+"/dashboard?old=true");
 		request.getRequestDispatcher("/ResultPage.jsp").forward(request, response);
 	}
 
