@@ -49,3 +49,7 @@ form .row .input-parent input {
 .error { color: red; } 
 
 .success { color: green; }
+
+.ybtn {
+	background: orange !important;
+}

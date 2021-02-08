@@ -31,19 +31,19 @@
 				</c:when>
 			</c:choose>
 
-			<c:choose>
-				<c:when test="${product.getQuestions().size() > 0}">				
-					<div class="col-sm-12 flex-align-center">
-						<a href="#" class="button large" style="width: 85%;">Delete Question</a>
-					</div>				
-				</c:when>
-			</c:choose>
 			
 			<c:choose>
 					<c:when
 						test="${!FormatUtils.isNextOrTodayDate(product.getDisplayDate())}">
+							<c:choose>
+								<c:when test="${product.getQuestions().size() > 0}">				
+									<div class="col-sm-12 flex-align-center">
+										<a href="${pageContext.request.contextPath}/questions/delete?id=${product.getId()}" class="button large ybtn" style="width: 85%;">Delete Questionnaire</a>
+									</div>				
+								</c:when>
+							</c:choose>
 							<div class="col-sm-12 flex-align-center">
-				            	<a href="${pageContext.request.contextPath}/product/delete?id=${product.getId()}" class="button secondary large" style="width: 85%;">Delete</a>
+				            	<a href="${pageContext.request.contextPath}/product/delete?id=${product.getId()}" class="button secondary large" style="width: 85%;">Delete Product</a>
 				            </div>
 					</c:when>
 				</c:choose>

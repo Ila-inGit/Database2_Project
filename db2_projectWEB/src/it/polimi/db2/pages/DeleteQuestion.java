@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import it.polimi.db2.services.QuestionService;
 
-@WebServlet("/product/delete")
+@WebServlet("/questions/delete")
 public class DeleteQuestion extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -21,13 +21,13 @@ public class DeleteQuestion extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String questionId = request.getParameter("id"); //TODO getParameter questionId
+		String prodId = request.getParameter("id"); //TODO getParameter questionId
 		boolean err = false;
 		
 		try {
 			
-			int id = Integer.parseInt(questionId);
-			if(id < 0 || !questionService.deleteQuestion(id)) {
+			int id = Integer.parseInt(prodId);
+			if(id < 0 || !questionService.deleteAllQuestions(id)) {
 				err = true;
 			}
 			
@@ -38,10 +38,10 @@ public class DeleteQuestion extends HttpServlet {
 		}
 		
 		if(err) {
-			request.setAttribute("message", "Invalid question id");
+			request.setAttribute("message", "Invalid product id");
 		} else {
 			request.setAttribute("success", true);
-			request.setAttribute("message", "Question removed successfully");
+			request.setAttribute("message", "Questionnaire removed successfully");
 		}
 		
 		

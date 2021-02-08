@@ -35,7 +35,8 @@
 	 <url-pattern>/product/new</url-pattern>
 	 <url-pattern>/product/delete</url-pattern>
 	 <url-pattern>/dashboard/*</url-pattern>
-	 <url-pattern>/questions/*</url-pattern>
+	 <url-pattern>/questions/new</url-pattern>
+	 <url-pattern>/questions/delete</url-pattern>
 </filter-mapping>  
 
 </web-app>

@@ -26,7 +26,7 @@ public class ProductService {
 	 */
 	public Product getTodayProduct() {
 		
-		var res = em.createNamedQuery("Product.today", Product.class).getResultList();
+		var res = em.createNamedQuery("Product.today", Product.class).setHint("javax.persistence.cache.storeMode", "REFRESH").getResultList();
 		if(res.size() >= 1)
 			return res.get(0);  // always return first product of the day
 								//TODO: create trigger in db to check duplicate prod of day
@@ -58,7 +58,7 @@ public class ProductService {
 		
 		// check if there are other products in the selected date
 		try {
-			em.createQuery("SELECT p FROM Product p WHERE p.displayDate = :date")
+			em.createNamedQuery("Product.ofDate")
 			.setHint("javax.persistence.cache.storeMode", "REFRESH")
 			.setParameter("date", displayDate, TemporalType.DATE)
 			.getSingleResult();
@@ -83,7 +83,7 @@ public class ProductService {
 	public List<Product> getNextProducts() {
 		try 
 		{
-			return em.createNamedQuery("Product.upcoming", Product.class).getResultList();
+			return em.createNamedQuery("Product.upcoming", Product.class).setHint("javax.persistence.cache.storeMode", "REFRESH").getResultList();
 		
 		} catch(NoResultException e) {
 			return new ArrayList<Product>();
@@ -96,7 +96,7 @@ public class ProductService {
 	public List<Product> getOldProducts() {
 		try 
 		{
-			return em.createNamedQuery("Product.old", Product.class).getResultList();
+			return em.createNamedQuery("Product.old", Product.class).setHint("javax.persistence.cache.storeMode", "REFRESH").getResultList();
 			
 		} catch(NoResultException e) {
 			return new ArrayList<Product>();
@@ -130,4 +130,5 @@ public class ProductService {
 		}
 		
 	}
+	
 }
