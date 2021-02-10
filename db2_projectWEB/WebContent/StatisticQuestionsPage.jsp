@@ -42,7 +42,8 @@
 		<input type="radio" name="expLvl" value="medium">Medium 
 		<input type="radio" name="expLvl" value="high">High
 	</form>
-
+	
+	<button type="submit" value="Submit">Submit</button>
 	<form action="ResultPage.jsp">
 		<input type="submit" value="Submit">
 	</form>

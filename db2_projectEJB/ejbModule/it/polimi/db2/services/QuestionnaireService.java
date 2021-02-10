@@ -5,9 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Remove;
-import javax.ejb.Startup;
 import javax.ejb.Stateful;
-import javax.enterprise.context.SessionScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
@@ -56,19 +54,22 @@ public class QuestionnaireService {
 		
 		em.persist(user);
 		em.persist(prod);
+		em.persist(log);
 	}
 	
 	public void marketingAnswers (int[] questionIds, int userId, String[] answersBody) {
-		for (int i = 0; i <= answersBody.length - 1; i++) {
-			Answer answer = new Answer();
-			Question question = em.find(Question.class, questionIds[i]);
-			User user = em.find(User.class, userId);
+		if (answersBody != null) {
+			for (int i = 0; i <= answersBody.length - 1; i++) {
+				Answer answer = new Answer();
+				Question question = em.find(Question.class, questionIds[i]);
+				User user = em.find(User.class, userId);
 
-			answer.setBody(answersBody[i]);
-			answer.setQuest(question);
-			answer.setUser(user);
+				answer.setBody(answersBody[i]);
+				answer.setQuest(question);
+				answer.setUser(user);
 
-			answersList.add(answer);
+				answersList.add(answer);
+			}
 		}
 		//Ottengo le risposte delle domande sul prodotto e me le memorizzo
 	}

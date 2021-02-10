@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import it.polimi.db2.services.QuestionnaireService;
+
 /**
  * Servlet implementation class LogOut
  */
@@ -23,6 +25,8 @@ public class LogOut extends HttpServlet {
 		HttpSession session = request.getSession(false);
 		
 		if(session != null) {
+			QuestionnaireService qs = (QuestionnaireService) session.getAttribute("questService");
+			if (qs != null) qs.remove();
 			session.invalidate();
 		}
 		

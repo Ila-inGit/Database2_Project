@@ -13,7 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import it.polimi.db2.entities.Product;
+
 import it.polimi.db2.entities.Question;
 import it.polimi.db2.entities.User;
 import it.polimi.db2.services.ProductService;
@@ -25,9 +25,6 @@ public class MarketingQuestions extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	
-	@Inject
-	private QuestionnaireService questService;
-	
 	@EJB(name = "it.polimi.db2.services/ProductService")
 	private ProductService prodService;
 	
@@ -37,6 +34,8 @@ public class MarketingQuestions extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		QuestionnaireService questService = null;
+		questService = (QuestionnaireService) request.getSession().getAttribute("questService");
 		
 		var usr = (User) request.getAttribute("usr");
 		var product = prodService.getTodayProduct();
@@ -47,36 +46,22 @@ public class MarketingQuestions extends HttpServlet {
 		int userId = usr.getId();
 		
 		List<Question> allQuestions = null;
-		String[] answers = null;
-		
-
-		try {
-			questService = (QuestionnaireService)new InitialContext().lookup("java:/openejb/local/QuestionnaireServiceLocalBean");
-		} catch (NamingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 		
 		allQuestions = questService.findQuestionsOfTheProduct(prodIdToday);
 
-		if (allQuestions != null) {
-			questService.createQuestionnaireLog(userId, prodIdToday);
-			
-			questionIds = new int[allQuestions.size()];
-			for(int i = 0; i <= allQuestions.size() - 1; i++) {
-				questionIds[i] = allQuestions.get(i).getId();
-			}
+		questService.createQuestionnaireLog(userId, prodIdToday);
 
-			request.setAttribute("marketingQuestions", allQuestions);
-			request.getRequestDispatcher("/MarketingQuestionsPage.jsp").forward(request, response);
-		} else {
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "There are no questions");
+		questionIds = new int[allQuestions.size()];
+		for (int i = 0; i <= allQuestions.size() - 1; i++) {
+			questionIds[i] = allQuestions.get(i).getId();
 		}
 
-		answers = request.getParameterValues("answers");
+		request.setAttribute("marketingQuestions", allQuestions);
+		request.getRequestDispatcher("/MarketingQuestionsPage.jsp").forward(request, response);
 
+		String answers[] = request.getParameterValues("answers");
+		
 		questService.marketingAnswers(questionIds, userId, answers);
-
 	}
 }

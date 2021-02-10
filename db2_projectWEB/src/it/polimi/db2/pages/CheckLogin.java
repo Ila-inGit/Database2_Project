@@ -7,11 +7,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ejb.EJB;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.persistence.NonUniqueResultException;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
 import it.polimi.db2.entities.User;
+import it.polimi.db2.services.QuestionnaireService;
 import it.polimi.db2.services.UserService;
 
 
@@ -81,7 +84,15 @@ public class CheckLogin extends HttpServlet {
 			
 		} else {
 			
-			request.getSession().setAttribute("user", user);	
+			QuestionnaireService questService = null;
+			try {
+				questService = (QuestionnaireService) new InitialContext().lookup("java:/openejb/local/QuestionnaireServiceLocalBean");
+			} catch (NamingException e) {
+				e.printStackTrace();
+			}
+			
+			request.getSession().setAttribute("user", user);
+			request.getSession().setAttribute("questService", questService);
 			response.sendRedirect(request.getContextPath()); // redirect to home page		
 			
 			return;
