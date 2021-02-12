@@ -12,7 +12,7 @@
 			<h1>Statistic Questions</h1>
 		</div>
 	</div>
-	<form method="GET" enctype="multipart/form-data">
+	<form method="POST" enctype="multipart/form-data">
 		<div class="row">
         	<div class="col-sm-12">
 				<h3>What is your gender?</h3>
@@ -26,10 +26,10 @@
 		</div>
 	
 		<div class="row">
-        	<div class="col-sm-12 col-md-3">
+        	<div class="col-sm-12">
               	<h3>What is your age?</h3>
          	</div>
-        	<div class="col-sm-12 col-md-9">
+        	<div class="col-sm-12">
               	<input type="number" id="age" name="age">
          	</div>
     	</div> 
@@ -46,14 +46,16 @@
 				<input type="radio" id="expLvl" name="expLvl" value="high">High
 			</div>
 		</div>
+		<br>
+		<h6><b>Note:</b>You must fill all the fields in this page to get one extra point!</h6>
 		
 		<input type="submit" name="Submit" value="Submit">
 	</form>
 	
-	<a href="${pageContext.request.contextPath}/questions"
+	<a href="${pageContext.request.contextPath}/questions?action=back"
                       class="button small" style="width: 10%;">Previous</a>
         
-    <a href="${pageContext.request.contextPath}/product"
+    <a href="${pageContext.request.contextPath}/questions?action=abort"
                       class="button small" style="width: 10%;">Cancel</a>
                       
 	<%-- <form action="ResultPage.jsp">

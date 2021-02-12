@@ -9,14 +9,14 @@
     </jsp:attribute>
 	<jsp:body>
                 <h3>Marketing questions</h3>
-                <form method="GET" enctype="multipart/form-data">
+                <form method="POST" enctype="multipart/form-data">
 						<c:forEach items="${marketingQuestions}" var="question">
                    			<div class="row">
                     		    <div class="col-sm-12">
-                        	    	<label for="marketingQuestions">${question.getBody()}</label>
+                        	    	<label for="marketingQuestions">${question.getKey().getBody()}</label>
                         		</div>
                         		<div class="col-sm-12">
-                           		<textarea id="answers" name="answers" rows="7" cols="124" required ></textarea>
+                           		<textarea id="answers" name="answers" rows="3" style="width:100%;" required >${question.getValue()}</textarea>
                        			</div>
                    			</div>
                    		</c:forEach> 

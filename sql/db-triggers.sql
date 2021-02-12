@@ -6,12 +6,12 @@ USE db2_project;
 
 DELIMITER //
 CREATE trigger updateScores
-AFTER INSERT ON answers
+AFTER INSERT ON Answers
 FOR EACH ROW
 BEGIN
 	DECLARE V INTEGER;
 	SELECT DISTINCT Q.prodId into V
-	FROM aswer as A JOIN questions as Q ON A.questionId = Q.id
+	FROM Answers as A JOIN Questions as Q ON A.questionId = Q.id
 	WHERE Q.id = new.questionId;
 
 	INSERT INTO score(userId,prodId,points)

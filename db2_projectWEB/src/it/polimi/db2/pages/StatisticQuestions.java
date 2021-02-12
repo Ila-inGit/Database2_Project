@@ -54,7 +54,7 @@ public class StatisticQuestions extends HttpServlet {
 
 		level = StringEscapeUtils.escapeHtml(request.getParameter("expLvl"));
 
-		questService.statisticAnswer(prodId, userId, userGender, age, level);
+		questService.addStatisticAnswer(prodId, userId, userGender, age, level);
 
 		//if (request.getParameter("Submit") != null) {
 			questService.submit();
@@ -63,7 +63,7 @@ public class StatisticQuestions extends HttpServlet {
 			request.setAttribute("success", true);
 			request.setAttribute("back_link", request.getContextPath() + "/product");
 			request.getRequestDispatcher("/ResultPage.jsp").forward(request, response);
-		//}
-		
+		//}	
 	}
+	
 }

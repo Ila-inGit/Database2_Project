@@ -11,7 +11,6 @@ import org.apache.commons.lang3.time.DateUtils;
 
 import it.polimi.db2.entities.Product;
 import it.polimi.db2.entities.Question;
-import it.polimi.db2.utils.FormatUtils;
 
 @Stateless
 public class QuestionService {
