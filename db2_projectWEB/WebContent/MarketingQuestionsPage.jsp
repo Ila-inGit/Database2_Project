@@ -9,7 +9,7 @@
     </jsp:attribute>
 	<jsp:body>
                 <h3>Marketing questions</h3>
-                <form method="GET" enctype="multipart/form-data" action="StatisticQuestionsPage.jsp">
+                <form method="GET" enctype="multipart/form-data">
 						<c:forEach items="${marketingQuestions}" var="question">
                    			<div class="row">
                     		    <div class="col-sm-12">

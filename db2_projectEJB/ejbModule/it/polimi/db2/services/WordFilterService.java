@@ -28,7 +28,7 @@ public class WordFilterService {
 	 * @param message message to check
 	 * @return true if massage contains one or more not allowed words
 	 */
-	public boolean ConstainsNotAllowedWord(String message) {
+	public boolean ContainsNotAllowedWord(String message) {
 		/* performance goes brrrrrr */
 		for(var  w : getNotAllowedWords()) {
 			if(message.contains(w.getText()))

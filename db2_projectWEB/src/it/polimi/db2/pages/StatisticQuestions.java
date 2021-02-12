@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +18,8 @@ import it.polimi.db2.entities.User;
 import it.polimi.db2.services.ProductService;
 import it.polimi.db2.services.QuestionnaireService;
 
-@WebServlet("/questions/statistic")
+@WebServlet("/statistic")
+@MultipartConfig
 public class StatisticQuestions extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
@@ -33,6 +35,7 @@ public class StatisticQuestions extends HttpServlet {
 			throws ServletException, IOException {
 		
 		QuestionnaireService questService = (QuestionnaireService) request.getSession().getAttribute("questService");
+		
 		String userGender = null;
 		int age = 0;
 		String level = null;
@@ -42,28 +45,25 @@ public class StatisticQuestions extends HttpServlet {
 		int prodId = product.getId();
 		int userId = usr.getId();
 
-		questService = (QuestionnaireService) request.getSession().getAttribute("questionnaireService");
+		userGender = StringEscapeUtils.escapeHtml(request.getParameter("gender"));
 
-		if (questService != null) {
-			userGender = StringEscapeUtils.escapeJava(request.getParameter("gender"));
-
-			age = Integer.parseInt(request.getParameter("age"));
-			if (age < 0) {
-				request.setAttribute("message", "Invalid age");
-			}
-
-			level = StringEscapeUtils.escapeJava(request.getParameter("gender"));
-
-			questService.statisticAnswer(prodId, userId, userGender, age, level);
-
-			request.setAttribute("message", "Thank you for submitting your questionnaire.");
-			request.setAttribute("success", true);
-		} else {
-			request.setAttribute("message", "Invalid product id");
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Questionnaire Service is not responding");
+		age = Integer.parseInt(request.getParameter("age"));
+		if (age < 0) {
+			request.setAttribute("message", "Invalid age");
 		}
 
-		request.setAttribute("back_link", request.getContextPath() + "/product");
-		//request.getRequestDispatcher("/ResultPage.jsp").forward(request, response);
+		level = StringEscapeUtils.escapeHtml(request.getParameter("expLvl"));
+
+		questService.statisticAnswer(prodId, userId, userGender, age, level);
+
+		//if (request.getParameter("Submit") != null) {
+			questService.submit();
+			
+			request.setAttribute("message", "Thank you for submitting your questionnaire.");
+			request.setAttribute("success", true);
+			request.setAttribute("back_link", request.getContextPath() + "/product");
+			request.getRequestDispatcher("/ResultPage.jsp").forward(request, response);
+		//}
+		
 	}
 }

@@ -28,6 +28,7 @@
 	 <url-pattern>/dashboard/*</url-pattern>
 	 <url-pattern>/scoreboard/*</url-pattern>
 	 <url-pattern>/questions/*</url-pattern>
+	 <url-pattern>/statistic</url-pattern>
 </filter-mapping>  
 
 <filter-mapping>  

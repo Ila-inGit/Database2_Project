@@ -27,6 +27,7 @@ public class MarketingQuestions extends HttpServlet {
 	
 	@EJB(name = "it.polimi.db2.services/ProductService")
 	private ProductService prodService;
+	private boolean first = true;
 	
 	public MarketingQuestions() {
 		super();
@@ -34,6 +35,7 @@ public class MarketingQuestions extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
 		QuestionnaireService questService = null;
 		questService = (QuestionnaireService) request.getSession().getAttribute("questService");
 		
@@ -56,12 +58,18 @@ public class MarketingQuestions extends HttpServlet {
 		for (int i = 0; i <= allQuestions.size() - 1; i++) {
 			questionIds[i] = allQuestions.get(i).getId();
 		}
-
-		request.setAttribute("marketingQuestions", allQuestions);
-		request.getRequestDispatcher("/MarketingQuestionsPage.jsp").forward(request, response);
+		
+		if(first) {
+			first = false;
+			request.setAttribute("marketingQuestions", allQuestions);
+			request.getRequestDispatcher("/MarketingQuestionsPage.jsp").forward(request, response);
+			return;
+		}
 
 		String answers[] = request.getParameterValues("answers");
 		
 		questService.marketingAnswers(questionIds, userId, answers);
+		
+		request.getRequestDispatcher("/StatisticQuestionsPage.jsp").forward(request, response);
 	}
 }
