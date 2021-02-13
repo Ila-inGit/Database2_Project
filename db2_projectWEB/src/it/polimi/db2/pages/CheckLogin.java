@@ -19,6 +19,7 @@ import it.polimi.db2.services.UserService;
 
 
 @WebServlet("/login")
+@EJB(name="QuestionnaireService", beanInterface = QuestionnaireService.class)
 public class CheckLogin extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
@@ -86,7 +87,8 @@ public class CheckLogin extends HttpServlet {
 			
 			QuestionnaireService questService = null;
 			try {
-				questService = (QuestionnaireService) new InitialContext().lookup("java:/openejb/local/QuestionnaireServiceLocalBean");
+				//questService = (QuestionnaireService) new InitialContext().lookup("java:/openejb/local/QuestionnaireServiceLocalBean");
+				questService = (QuestionnaireService) new InitialContext().lookup("java:comp/env/QuestionnaireService");
 			} catch (NamingException e) {
 				e.printStackTrace();
 			}
