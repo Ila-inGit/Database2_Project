@@ -20,7 +20,7 @@ import it.polimi.db2.entities.Question;
 import it.polimi.db2.entities.User;
 import it.polimi.db2.services.ProductService;
 
-@WebServlet("/results")
+@WebServlet("/dashboard/results")
 public class ResultsPage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -35,14 +35,31 @@ public class ResultsPage extends HttpServlet {
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		request.setAttribute("prodId", 3);
-		
+
 		List<Question> allQuestions = new ArrayList<>();
-		int prodId = (int) request.getAttribute("prodId");
+		String pid = request.getParameter("id");
+		int prodId = -1;
+		
+		if(pid == null)
+		{
+			//TODO handle error
+		}
+		
+		try
+		{
+			prodId = Integer.parseInt(pid);
+		} catch(NumberFormatException e)
+		{
+			// TODO: handle error
+		}
 		
 		/*mi devo prendere tutte le domande del questionario*/ 
 		Product prod = prodService.getProductById(prodId);
+		if(prod == null)
+		{
+			//TODO: handle error
+		}
+		
 		allQuestions = prod.getQuestions();
 		
 		request.setAttribute("questions", allQuestions);
@@ -52,13 +69,11 @@ public class ResultsPage extends HttpServlet {
 		Map<Integer,List<Answer>> questAnswers = new HashMap<>();
 	
 		
-		allQuestions.stream().forEach((q) -> { 
+		for(var q: allQuestions) 
+		{ 
+			questAnswers.put(q.getId(), q.getAnswers());
 			
-			List<Answer> allAnswers = prodService.getResultForQuestion(q.getId(), prodId);
-			//stampo usr e risposta associata per ogni domanda 
-				questAnswers.put(q.getId(),allAnswers);
-			}
-		);
+		}
 		
 		request.setAttribute("questAnswers", questAnswers);
 		

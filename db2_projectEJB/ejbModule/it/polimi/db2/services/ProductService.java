@@ -106,12 +106,13 @@ public class ProductService {
 	
 	
 	public Product getProductById(int prodId) {
+		//TODO: rifare con api jpa e non la query
 		try 
 		{
 			return em.createNamedQuery("Product.findById", Product.class).setParameter("id", prodId ).setHint("javax.persistence.cache.storeMode", "REFRESH").getSingleResult();
 			
 		} catch(NoResultException e) {
-			return new Product();
+			return null;
 		}
 	}
 	
