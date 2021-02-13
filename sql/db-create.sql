@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS StatisticAnswers (
   id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
   userId INT,
   prodId INT,
-  gender ENUM('male', 'famale', 'helicopter') NOT NULL,
+  gender ENUM('male', 'female', 'helicopter') NOT NULL,
   expLvl ENUM('low', 'medium', 'high') NOT NULL,
   age INT CHECK (age > 0) NOT NULL
 );

@@ -20,7 +20,7 @@ import it.polimi.db2.entities.Question;
 import it.polimi.db2.entities.User;
 import it.polimi.db2.services.ProductService;
 
-@WebServlet("/dashboard/results")
+@WebServlet("/questions/results")
 public class ResultsPage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

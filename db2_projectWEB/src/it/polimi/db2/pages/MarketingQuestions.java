@@ -120,36 +120,53 @@ public class MarketingQuestions extends HttpServlet {
 		QuestionnaireService questService  = (QuestionnaireService) request.getSession().getAttribute("questService");
 		var usr = (User) request.getAttribute("usr");
 		
-		
-		// handle post of marketing questions answers
-		String answers[] = request.getParameterValues("answers");
-		
-		if(answers != null)
+		if(questService == null)
 		{
-			var questionIds = getTodayProductQuestionIds();
+			request.setAttribute("message", "Something went wrong, please retry later!");
+			request.setAttribute("back_link", request.getContextPath());
+			request.getRequestDispatcher("/ResultPage.jsp").forward(request, response);
+			return;
+		}
 		
-			if(answers.length == questionIds.length)
-			{		
-				//delete junk data of multiple submits
-				questService.clearAnswers();
+		if(!questService.shouldDisplayStatisticsForm())
+		{
+		
+			// handle post of marketing questions answers
+			String answers[] = request.getParameterValues("answers");
+			
+			if(answers != null)
+			{
+				var questionIds = getTodayProductQuestionIds();
+			
+				if(answers.length == questionIds.length)
+				{		
+					//delete junk data of multiple submits
+					questService.clearAnswers();
+					
+					// add questions to statefull
+					questService.addMarketingAnswers(questionIds, usr.getId(), answers);
+					// send marketing page
+					request.getRequestDispatcher("/StatisticQuestionsPage.jsp").forward(request, response);
+				}
+				else
+				{
+					// submit error here
+					request.setAttribute("message", "Something went wrong while saving your answers, please retry later!");
+					request.setAttribute("back_link", request.getContextPath());
+					request.getRequestDispatcher("/ResultPage.jsp").forward(request, response);
+				}
 				
-				// add questions to statefull
-				questService.addMarketingAnswers(questionIds, usr.getId(), answers);
-				// send marketing page
-				request.getRequestDispatcher("/StatisticQuestionsPage.jsp").forward(request, response);
 			}
 			else
 			{
-				// submit error here
-				request.setAttribute("message", "Something went wrong while saving your answers, please retry later!");
-				request.setAttribute("back_link", request.getContextPath());
+				request.setAttribute("message", "Please answer to proposed questions!");
+				request.setAttribute("back_link", request.getContextPath()+"/questions");
 				request.getRequestDispatcher("/ResultPage.jsp").forward(request, response);
 			}
-			
-		} 
+		}
 		else
 		{		
-		//handle post of marketing questions 		
+		   //handle post of marketing questions 		
 			String genderStr = request.getParameter("gender");
 			String ageStr = request.getParameter("age");
 			String levelStr =  StringEscapeUtils.escapeHtml(request.getParameter("expLvl"));
@@ -159,7 +176,7 @@ public class MarketingQuestions extends HttpServlet {
 			
 			// valid statistical answer
 			// parse and submit it
-			if(genderStr != null && ageStr != null && levelStr == null)
+			if(genderStr != null && ageStr != null && levelStr != null)
 			{
 				var userGender = StringEscapeUtils.escapeHtml(request.getParameter("gender"));
 				var level = StringEscapeUtils.escapeHtml(request.getParameter("expLvl"));

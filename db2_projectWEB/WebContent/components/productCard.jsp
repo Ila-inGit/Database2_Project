@@ -16,7 +16,7 @@
 			<c:choose>
 				<c:when test="${product.getQuestions().size() > 0}">			
 					<div class="col-sm-12 flex-align-center">
-						<a href="${pageContext.request.contextPath}/dashboard/results?id=${product.getId()}"
+						<a href="${pageContext.request.contextPath}/questions/results?id=${product.getId()}"
 							 class="button large" style="width: 85%;">See Results</a>
 					</div>							
 				</c:when>

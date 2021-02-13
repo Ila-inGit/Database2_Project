@@ -24,7 +24,7 @@
 					            <div class="col-sm-1 flex-vertical-center">
 					            	<c:choose>
 					            		<c:when test="${product.getQuestions().size() > 0}">
-							                <a href="#">
+							                <a href="${pageContext.request.contextPath}/questions/results?id=${product.getId()}">
 							                    <span class="tooltip" aria-label="See poll results"><i class="fas fa-poll fa-2x"></i></span>
 							                </a>
 						                </c:when>
@@ -89,9 +89,21 @@
 							<img alt="Product image" class ="product-img" src="${pageContext.request.contextPath}/img/no_prod.png"/>
 		             </div>
 		             
-		             <div class="col-sm-12">
+		             <div class="col-sm-10">
 		                 <h3>A raccoon ate today's product of the day so we have nothing to show you.</h3>
 		             </div>
+		             <c:choose>
+						    <c:when test="${usr.isAdmin() == true}">
+						    
+						    	<div class="col-sm-1 flex-vertical-center ">
+					                <a href="${pageContext.request.contextPath}/product/new">
+					                    <span class="tooltip" aria-label="Create new product"><i class="fas fa-plus-circle fa-2x"></i></span>
+					                </a>
+					            </div>		            
+						    </c:when>
+
+						    
+						</c:choose>
 		
 		         </div>
 

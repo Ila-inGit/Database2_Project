@@ -38,6 +38,7 @@
 	 <url-pattern>/dashboard/*</url-pattern>
 	 <url-pattern>/questions/new</url-pattern>
 	 <url-pattern>/questions/delete</url-pattern>
+	 <url-pattern>/questions/results</url-pattern>
 </filter-mapping>  
 
 </web-app>
