@@ -4,6 +4,7 @@ package it.polimi.db2.services;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.ejb.*;
 import javax.persistence.EntityManager;
@@ -102,6 +103,86 @@ public class ProductService {
 			return new ArrayList<Product>();
 		}
 	}
+	
+	
+	public Product getProductById(int prodId) {
+		try 
+		{
+			return em.createNamedQuery("Product.findById", Product.class).setParameter("id", prodId ).setHint("javax.persistence.cache.storeMode", "REFRESH").getSingleResult();
+			
+		} catch(NoResultException e) {
+			return new Product();
+		}
+	}
+	
+	
+	
+	public List<Answer> getResultForQuestion(int questId, int prodId){
+		
+		Product pr;
+		try 
+		{
+			pr = em.createNamedQuery("Product.findById", Product.class).setParameter("id", prodId ).setHint("javax.persistence.cache.storeMode", "REFRESH").getSingleResult();
+			
+		} catch(NoResultException e) {
+			pr = new Product();
+		}
+		
+		Question question= pr.getQuestions().stream().filter((q) -> q.getId() == questId).findFirst().orElse(null);
+		
+		if(question != null) {
+			return question.getAnswers();
+		}
+		
+		return new ArrayList<Answer>(); 
+		
+	}
+	
+	public List<User> getUsersOfDeletedQuestionnaire(int prodId){
+		
+		Product pr;
+		try 
+		{
+			pr = em.createNamedQuery("Product.findById", Product.class).setParameter("id", prodId ).setHint("javax.persistence.cache.storeMode", "REFRESH").getSingleResult();
+			
+		} catch(NoResultException e) {
+			pr = new Product();
+		}
+		
+		Question question= pr.getQuestions().get(0);
+		
+		List<Answer> allAnswers;
+		
+		
+		if(question != null) {
+			allAnswers = question.getAnswers();
+			List<User> allUsers = new ArrayList<User>();
+			List<User> usersInLogs = new ArrayList<User>();
+			
+			for( Answer a : allAnswers) {
+				allUsers.add(a.getUser());
+			}
+			
+			List<QuestionnaireLog> qLogs ;
+			
+			qLogs = pr.getQLogs();
+			
+			for( QuestionnaireLog q : qLogs) {
+				if(!usersInLogs.contains(q.getUser()))
+					usersInLogs.add(q.getUser());
+			}
+			
+			for( User u : allUsers) {
+				usersInLogs.remove(u);
+			}
+			return usersInLogs;
+			
+		}
+		return null;
+	}
+	
+	
+	
 	
 	
 	/**
