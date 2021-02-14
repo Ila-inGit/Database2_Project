@@ -15,10 +15,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
+import it.polimi.db2.entities.Answer;
 import it.polimi.db2.entities.Question;
 import it.polimi.db2.entities.User;
 import it.polimi.db2.services.ProductService;
 import it.polimi.db2.services.QuestionnaireService;
+import it.polimi.db2.services.WordFilterService;
 
 @WebServlet("/questions")
 @MultipartConfig
@@ -28,6 +30,9 @@ public class MarketingQuestions extends HttpServlet {
 	
 	@EJB(name = "it.polimi.db2.services/ProductService")
 	private ProductService prodService;
+	
+	@EJB(name = "it.polimi.db2.services/WordFilterService")
+	private WordFilterService wFilter;
 	
 	public MarketingQuestions() {
 		super();
@@ -202,6 +207,21 @@ public class MarketingQuestions extends HttpServlet {
 				
 				questService.addStatisticAnswer(prodService.getTodayProduct().getId(), usr.getId(), userGender, age, level);
 				
+			}
+			
+			var answ = questService.getMarketingAnswers();
+			boolean badWord = false;
+			for (Answer an : answ) {
+				badWord = wFilter.ContainsNotAllowedWord(an.getBody());
+				if (badWord) {
+					
+					questService.blockAccount();
+					
+					request.setAttribute("message", "Your account has been blocked because you have used a not allowed word");
+					request.setAttribute("back_link", request.getContextPath()+"/logout");
+					request.getRequestDispatcher("/ResultPage.jsp").forward(request, response);
+					return;
+				}
 			}
 			
 			questService.submit();

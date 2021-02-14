@@ -83,6 +83,13 @@ public class CheckLogin extends HttpServlet {
 			request.getRequestDispatcher("/LoginPage.jsp").forward(request, response);
 			return;
 			
+		} else if (user.isBlocked()){
+			
+			String message = "User is blocked... You cannot use this account anymore";
+			request.setAttribute("message", message);
+			request.getRequestDispatcher("/LoginPage.jsp").forward(request, response);
+			return;
+			
 		} else {
 			
 			QuestionnaireService questService = null;
