@@ -84,6 +84,13 @@ public class MarketingQuestions extends HttpServlet {
 			else
 			{
 
+				// open new questionnaire
+				if(questService.getMarketingAnswers().size() <= 0)
+				{
+					var usr = (User) request.getAttribute("usr");
+					questService.createQuestionnaireLog(usr.getId(), prodService.getTodayProduct().getId());
+				}
+				
 				// generate complete pairs used to prefill the page
 				List<ImmutablePair<Question, String>> questions = new ArrayList<ImmutablePair<Question, String>>();
 				

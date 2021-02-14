@@ -72,6 +72,15 @@ public class QuestionService {
 				em.remove(q);
 			}
 			prod.clearQuestions();
+			
+			// clear statistical questions
+			for(var s : prod.getStatAnswers())
+			{
+				em.remove(s);
+			}
+			
+			prod.getStatAnswers().clear();
+			
 			return true;
 			
 		}

@@ -1,21 +1,28 @@
 USE db2_project;
 
 -------------------------------------------------------------------------------------------
--- 
-
+-- Intitialize score to 0 for new registered users
 
 DELIMITER //
-CREATE trigger updateScores
+CREATE trigger onUserRegister
+AFTER INSERT ON Users
+FOR EACH ROW
+BEGIN
+	INSERT INTO score(userId, points)
+    VALUES (new.id, 0);
+END //
+
+DELIMITER ;
+
+-------------------------------------------------------------------------------------------
+-- 
+
+DELIMITER //
+CREATE trigger onMarketingAnswerInsert
 AFTER INSERT ON Answers
 FOR EACH ROW
 BEGIN
-	DECLARE V INTEGER;
-	SELECT DISTINCT Q.prodId into V
-	FROM Answers as A JOIN Questions as Q ON A.questionId = Q.id
-	WHERE Q.id = new.questionId;
-
-	INSERT INTO score(userId,prodId,points)
-    VALUES (new.userId,V,1);
+	update score set points = points + 1 where userId = new.userId;
 END //
 
 DELIMITER ;
@@ -26,31 +33,54 @@ DELIMITER ;
 
 
 DELIMITER //
-CREATE trigger updateScores2
+CREATE trigger onStatisticAnswerInsert
 AFTER INSERT ON statisticanswers
 FOR EACH ROW
 BEGIN
-	INSERT INTO score(userId,prodId,points)
-    VALUES (new.userId,new.prodId,2);
-END //
-
-DELIMITER ;
-
--------------------------------------------------------------------------------------------
--- 
-
-
-DELIMITER //
-CREATE TRIGGER answers_AFTER_DELETE AFTER DELETE ON answers FOR EACH ROW BEGIN
-	DECLARE V INTEGER;
-	SELECT DISTINCT Q.prodId into V
-	FROM answers as A JOIN questions as Q ON A.questionId = Q.id
-	WHERE Q.id = old.questionId;
+    DECLARE NUM INTEGER DEFAULT 0;
     
-    DELETE FROM score as S
-    WHERE S.userId = old.userId and S.prodId = V and S.points = 1
-    ORDER BY S.userId, S.prodId DESC
-    LIMIT 1;
+	IF new.gender IS NOT NULL THEN
+		set NUM := NUM + 1;
+    END IF;
+    
+	IF new.age IS NOT NULL THEN
+		set NUM := NUM + 1;
+    END IF;
+    
+	IF new.expLvl IS NOT NULL THEN
+		set NUM := NUM + 1;
+    END IF;
+    
+	update score set points = points + 2 * NUM where userId = new.userId;
+END //
+
+DELIMITER ;
+
+-------------------------------------------------------------------------------------------
+-- 
+
+
+
+DELIMITER //
+CREATE TRIGGER onQuestionDelete
+BEFORE DELETE ON Questions
+FOR EACH ROW
+BEGIN
+	delete from answers where questionId = old.id;
+END //
+DELIMITER ;
+
+-------------------------------------------------------------------------------------------
+-- 
+
+
+
+DELIMITER //
+CREATE TRIGGER onMarketingAnswerDelete
+AFTER DELETE ON answers 
+FOR EACH ROW
+BEGIN
+	update score set points = points - 1 where userId = old.userId;
 END //
 DELIMITER ;
 
@@ -59,11 +89,25 @@ DELIMITER ;
 
 
 DELIMITER //
-CREATE  TRIGGER statisticanswers_AFTER_DELETE AFTER DELETE ON statisticanswers FOR EACH ROW BEGIN
-	DELETE FROM score as S
-    WHERE S.userId = old.userId and S.prodId = old.prodId and S.points = 2
-    ORDER BY S.userId, S.prodId DESC
-    LIMIT 1;
+CREATE TRIGGER onStatisticAnswerDelete
+AFTER DELETE ON statisticanswers 
+FOR EACH ROW 
+BEGIN
+    DECLARE NUM INTEGER DEFAULT 0;
+    
+	IF old.gender IS NOT NULL THEN
+		set NUM := NUM + 1;
+    END IF;
+    
+	IF old.age IS NOT NULL THEN
+		set NUM := NUM + 1;
+    END IF;
+    
+	IF old.expLvl IS NOT NULL THEN
+		set NUM := NUM + 1;
+    END IF;
+    
+	update score set points = points - 2 * NUM where userId = old.userId;
 END //
 
 DELIMITER ;

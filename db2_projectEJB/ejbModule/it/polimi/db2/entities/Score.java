@@ -7,9 +7,8 @@ import javax.persistence.*;
 @Table(name = "score", schema = "db2_project")
 @NamedQueries({ @NamedQuery(name = "Score.findAll", query = "SELECT s FROM Score s"),
 	@NamedQuery(name = "Score.findByUser", query = "SELECT s FROM Score s WHERE s.user.id = :userId "),
-	@NamedQuery(name = "Score.findByProd", query = "SELECT s FROM Score s WHERE s.prod.id = :prodId "),
-	@NamedQuery(name = "Score.createScoreBoard", query = "SELECT s.user.id, s.user.userName, sum(s.points) AS points FROM Score s GROUP BY s.user.id ORDER BY points DESC")})
-
+	@NamedQuery(name = "Score.createScoreBoard", query = "SELECT s.user.id, s.user.userName, s.points FROM Score s where s.points > 0 ORDER BY s.points DESC")}
+)
 //SELECT s.user AS us, sum(s.points) AS pointsSum FROM Score AS s GROUP BY s.user ORDER BY pointsSum 
 public class Score implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -23,11 +22,6 @@ public class Score implements Serializable {
 	@JoinColumn(name = "userId")
 	private User user;
 	
-	// bi-directional many-to-one association to Product
-	@ManyToOne
-	@JoinColumn(name = "prodId")
-	private Product prod;
-	
 	@Column(name = "points", nullable = false)
 	private int points;
 
@@ -36,10 +30,9 @@ public class Score implements Serializable {
 	}
 	
 
-	public Score(User user, Product prod, int points) {
+	public Score(User user, int points) {
 		super();
 		this.user = user;
-		this.prod = prod;
 		this.points = points;
 	}
 
@@ -52,20 +45,8 @@ public class Score implements Serializable {
 		this.user = user;
 	}
 
-	public Product getProd() {
-		return prod;
-	}
-
-	public void setProd(Product prod) {
-		this.prod = prod;
-	}
-
 	public int getPoints() {
 		return points;
-	}
-
-	public void setPoints(int points) {
-		this.points = points;
 	}
 
 }

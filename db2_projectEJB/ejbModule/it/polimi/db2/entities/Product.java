@@ -42,28 +42,19 @@ public class Product implements Serializable {
 	
 	
 	//bi-directional relationship with Question
-	@OneToMany(mappedBy = "prodId", fetch = FetchType.EAGER,  cascade = { CascadeType.PERSIST, CascadeType.REMOVE,
-			CascadeType.REFRESH }, orphanRemoval = true )
+	@OneToMany(mappedBy = "prodId", fetch = FetchType.EAGER,  cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
 	private List<Question> questions;
 	
 	//bi-directional relationship with StatisticAnswer
-	@OneToMany(mappedBy = "prod", fetch = FetchType.EAGER,  cascade = { CascadeType.PERSIST, CascadeType.REMOVE,
-			CascadeType.REFRESH }, orphanRemoval = true )
+	@OneToMany(mappedBy = "prod", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
 	private List<StatisticAnswer> statAns;
 	
 	//bi-directional many-to-one association to Review
-	@OneToMany(mappedBy = "prod", fetch = FetchType.EAGER,  cascade = { CascadeType.PERSIST, CascadeType.REMOVE,
-			CascadeType.REFRESH }, orphanRemoval = true )
+	@OneToMany(mappedBy = "prod", fetch = FetchType.EAGER,  cascade = {CascadeType.PERSIST, CascadeType.REFRESH} )
 	private List<Review> reviews;
 	
 	//bi-directional many-to-one association to Score
-	@OneToMany(mappedBy = "prod", fetch = FetchType.EAGER,  cascade = { CascadeType.PERSIST, CascadeType.REMOVE,
-			CascadeType.REFRESH }, orphanRemoval = true )
-	private List<Score> scores;
-	
-	//bi-directional many-to-one association to Score
-		@OneToMany(mappedBy = "prod", fetch = FetchType.EAGER,  cascade = { CascadeType.PERSIST, CascadeType.REMOVE,
-				CascadeType.REFRESH }, orphanRemoval = true )
+		@OneToMany(mappedBy = "prod", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH} )
 		private List<QuestionnaireLog> qLog;
 
 	public List<Review> getReviews() {
@@ -75,15 +66,6 @@ public class Product implements Serializable {
 		this.reviews = reviews;
 	}
 
-
-	public List<Score> getScores() {
-		return scores;
-	}
-
-
-	public void setScores(List<Score> scores) {
-		this.scores = scores;
-	}
 
 	public List<Question> getQuestions() {
 		return questions;
@@ -147,6 +129,7 @@ public class Product implements Serializable {
 		this.displayDate = displayDate;
 	}
 	
+	
 	public void addReview(Review review) {
 		getReviews().add(review);
 		review.setProd(this);
@@ -155,15 +138,6 @@ public class Product implements Serializable {
 	
 	public void removeReview(Review review) {
 		getReviews().remove(review);
-	}
-	
-	public void addScore(Score score) {
-		getScores().add(score);
-		score.setProd(this);
-	}
-	
-	public void removeScore(Score score) {
-		getScores().remove(score);
 	}
 	
 	public void addQuestion(Question question) {

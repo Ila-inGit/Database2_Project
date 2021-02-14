@@ -34,26 +34,23 @@ public class User implements Serializable{
 	private boolean isAdmin;
 	
 	//bi-directional relationship with Answer
-	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER,  cascade = { CascadeType.PERSIST, CascadeType.REFRESH })
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.REFRESH })
 	private List<Answer> answers;
 	
 	//bi-directional relationship with StatisticAnswer
-	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER,  cascade = { CascadeType.PERSIST, CascadeType.REFRESH })
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.REFRESH })
 	private List<StatisticAnswer> statAns;
 	
 	//bi-directional many-to-one association to Review
-	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER,  cascade = { CascadeType.PERSIST, CascadeType.REMOVE,
-			CascadeType.REFRESH }, orphanRemoval = true )
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
 	private List<Review> reviews;
 	
 	//bi-directional many-to-one association to Score
-	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER,  cascade = { CascadeType.PERSIST, CascadeType.REMOVE,
-			CascadeType.REFRESH }, orphanRemoval = true )
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH} )
 	private List<Score> scores;
 	
 	
-	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER,  cascade = { CascadeType.PERSIST, CascadeType.REMOVE,
-			CascadeType.REFRESH }, orphanRemoval = true )
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH} )
 	private List<QuestionnaireLog> qLog;
 	
 

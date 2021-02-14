@@ -54,23 +54,6 @@ public class ScoreService {
 	}
 	
 	
-	
-	public void createScore(int userId, int prodId, int points) {
-		User user = em.find(User.class, userId);
-		Product prod = em.find(Product.class, prodId);
-		
-		Score score = new Score(user,prod,points);
-		// for debugging: let's check if mission is managed
-		System.out.println("Method createScore");
-		System.out.println("Is score object managed?  " + em.contains(score));
-		
-		// both side of the relation is updated
-		user.addScore(score);
-		//prod.addScore(score);
-		em.persist(user);
-		em.persist(prod);
-	}
-	
 	public Map<String, String> createScoreBoard() {
 
 		List<Object[]> scores = em.createNamedQuery("Score.createScoreBoard").getResultList();

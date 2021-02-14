@@ -23,8 +23,7 @@ public class Question implements Serializable{
     private Product prodId;
 
     //bi-directional relationship with Answer
-    @OneToMany (mappedBy = "quest", cascade = {CascadeType.PERSIST, CascadeType.REMOVE,
-                CascadeType.REFRESH}, orphanRemoval = true)
+    @OneToMany (mappedBy = "quest", cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     private List<Answer> answers;
 
     @Column(name = "body", nullable = false)
