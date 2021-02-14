@@ -193,6 +193,14 @@ public class QuestionnaireService {
 		}
 	}
 	
+	public void blockAccount() {
+		User user = answersList.get(0).getUser();
+		
+		user.setBlocked(true);
+		
+		em.persist(user);
+	}
+	
 	/**
 	 * Clear all current stored answers
 	 */
