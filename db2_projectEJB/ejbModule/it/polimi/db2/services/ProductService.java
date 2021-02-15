@@ -3,7 +3,9 @@ package it.polimi.db2.services;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.ejb.*;
@@ -106,10 +108,9 @@ public class ProductService {
 	
 	
 	public Product getProductById(int prodId) {
-		//TODO: rifare con api jpa e non la query
 		try 
 		{
-			return em.createNamedQuery("Product.findById", Product.class).setParameter("id", prodId ).setHint("javax.persistence.cache.storeMode", "REFRESH").getSingleResult();
+			return em.find(Product.class, prodId);
 			
 		} catch(NoResultException e) {
 			return null;
@@ -123,7 +124,7 @@ public class ProductService {
 		Product pr;
 		try 
 		{
-			pr = em.createNamedQuery("Product.findById", Product.class).setParameter("id", prodId ).setHint("javax.persistence.cache.storeMode", "REFRESH").getSingleResult();
+			pr = em.find(Product.class, prodId);
 			
 		} catch(NoResultException e) {
 			pr = new Product();
@@ -139,12 +140,15 @@ public class ProductService {
 		
 	}
 	
-	public List<User> getUsersOfDeletedQuestionnaire(int prodId){
+public Map<User, Boolean> getUsersQuestionnaire(int prodId){
 		
 		Product pr;
+		///true if he submitted the questionnaire
+		Map<User, Boolean> usersOfQuest = new HashMap<>();
+		
 		try 
 		{
-			pr = em.createNamedQuery("Product.findById", Product.class).setParameter("id", prodId ).setHint("javax.persistence.cache.storeMode", "REFRESH").getSingleResult();
+			pr = em.find(Product.class, prodId);
 			
 		} catch(NoResultException e) {
 			pr = new Product();
@@ -157,11 +161,9 @@ public class ProductService {
 		
 		if(question != null) {
 			allAnswers = question.getAnswers();
-			List<User> allUsers = new ArrayList<User>();
-			List<User> usersInLogs = new ArrayList<User>();
 			
 			for( Answer a : allAnswers) {
-				allUsers.add(a.getUser());
+				usersOfQuest.put(a.getUser(), true );
 			}
 			
 			List<QuestionnaireLog> qLogs ;
@@ -169,22 +171,15 @@ public class ProductService {
 			qLogs = pr.getQLogs();
 			
 			for( QuestionnaireLog q : qLogs) {
-				if(!usersInLogs.contains(q.getUser()))
-					usersInLogs.add(q.getUser());
+				if(!usersOfQuest.containsKey(q.getUser()))
+					usersOfQuest.put(q.getUser(), false );
 			}
 			
-			for( User u : allUsers) {
-				usersInLogs.remove(u);
-			}
-			return usersInLogs;
+			return usersOfQuest;
 			
 		}
 		return null;
 	}
-	
-	
-	
-	
 	
 	/**
 	 * Delete product by id

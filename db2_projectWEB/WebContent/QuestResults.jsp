@@ -12,32 +12,18 @@
 <jsp:body>
 	
 	<table class="striped">
-	  <caption>User submitting questionnaire</caption>
+	  <caption>Users</caption>
 	  <thead>
 	    <tr>
 	      <th>UserName</th>
+	      <th>Have they submitted the questionnaire?</th>
 	    </tr>
 	  </thead>
 	  <tbody>
 		<c:forEach items="${users}" var="user">
 			<tr>
-				<td data-label="UserName">${user}</td>
-			</tr>
-		</c:forEach>		
-	  </tbody>
-	</table>
-	
-	<table class="striped">
-	  <caption>User who have deleted their questionnaire</caption>
-	  <thead>
-	    <tr>
-	      <th>UserName</th>
-	    </tr>
-	  </thead>
-	  <tbody>
-		<c:forEach items="${deletedUsers}" var="deletedUser">
-			<tr>
-				<td data-label="UserName">${deletedUser}</td>
+				<td data-label="UserName">${user.key.getUserName()}</td>
+				<td data-label="Points">${user.value}</td>
 			</tr>
 		</c:forEach>		
 	  </tbody>

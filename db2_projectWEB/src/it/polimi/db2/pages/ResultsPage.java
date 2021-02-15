@@ -72,30 +72,17 @@ public class ResultsPage extends HttpServlet {
 		for(var q: allQuestions) 
 		{ 
 			questAnswers.put(q.getId(), q.getAnswers());
-			
 		}
 		
 		request.setAttribute("questAnswers", questAnswers);
 		
-		/*mi devo prendere tutti gli user che hanno risposto al questionario*/
+		//mi devo prendere tutti gli user che hanno risposto al questionario
 		
-		List<Answer> value = questAnswers.values().iterator().next();
 		
-		List<String> users = new ArrayList<String>();
+		Map<User, Boolean> users = prodService.getUsersQuestionnaire(prodId);
 		
-		for(Answer a: value) {
-			users.add(a.getUser().getUserName());
-		}
-		
-		//devo stampare gli user di una domanda solo perchè tanto le devono rispondere a tutte obbligatoriamente
 		request.setAttribute("users", users);
-	
-	
-		//recupera le cose dal prodService che ha i questionnaire log del prodotto
 		
-		List<User> deletedUsers = prodService.getUsersOfDeletedQuestionnaire(prodId);
-		
-		request.setAttribute("deletedUsers", deletedUsers);
 		
 		request.getRequestDispatcher("/QuestResults.jsp" ).forward(request, response);
 	}
