@@ -27,6 +27,10 @@ public class Answer implements Serializable{
     @Column(name = "body", nullable = false)
 	private String body;
 
+    
+    @OneToOne(mappedBy="answer")
+    Score score;
+    
     public Answer() {}
 
     public Answer(Question quest, User user, String body){

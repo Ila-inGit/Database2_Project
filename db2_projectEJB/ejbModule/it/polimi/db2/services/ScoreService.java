@@ -22,37 +22,6 @@ public class ScoreService {
 	public ScoreService() {
 	}
 	
-	// take user from cache ,i.e. from entities of the persistence context(if i understood well)
-	public List<Score> findScoresByUser(int userId) {
-		User user = em.find(User.class, userId);
-		List<Score> scores = user.getScores();
-		return scores;
-	}
-
-	// no cache
-	public List<Score> findScoreByUserNoCache(int userId) {
-		List<Score> scores = em.createQuery("Select s from Score s where s.user.id = :userId ", Score.class)
-				.setHint("javax.persistence.cache.storeMode", "REFRESH").setParameter("userId", userId).getResultList();
-
-		return scores;
-	}
-	
-//
-//	public List<Score> findScoresByProd(int prodId) {
-//		Product prod = em.find(Product.class, prodId);
-//		List<Score> scores = prod.getScores();
-//		return scores;
-//
-//	}
-
-	// no cache
-	public List<Score> findScoreByProdNoCache(int prodId) {
-		List<Score> scores = em.createQuery("Select s from Score s where s.prod.id = :prodId ", Score.class)
-				.setHint("javax.persistence.cache.storeMode", "REFRESH").setParameter("prodId", prodId).getResultList();
-
-		return scores;
-	}
-	
 	
 	public Map<String, String> createScoreBoard() {
 

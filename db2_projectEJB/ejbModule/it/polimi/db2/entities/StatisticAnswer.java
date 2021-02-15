@@ -32,6 +32,9 @@ public class StatisticAnswer implements Serializable{
 
     @Column(name = "age", nullable = false)
 	private Integer age; // use integer because is nullable
+    
+    @OneToOne(mappedBy="stats")
+    Score score;
 
     public StatisticAnswer() {}
 

@@ -5,9 +5,8 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "score", schema = "db2_project")
-@NamedQueries({ @NamedQuery(name = "Score.findAll", query = "SELECT s FROM Score s"),
-	@NamedQuery(name = "Score.findByUser", query = "SELECT s FROM Score s WHERE s.user.id = :userId "),
-	@NamedQuery(name = "Score.createScoreBoard", query = "SELECT s.user.id, s.user.userName, s.points FROM Score s where s.points > 0 ORDER BY s.points DESC")}
+@NamedQueries({ 
+	@NamedQuery(name = "Score.createScoreBoard", query = "SELECT s.user.id, s.user.userName, sum(s.points) as points FROM Score s Group by s.user.id ORDER BY points DESC")}
 )
 //SELECT s.user AS us, sum(s.points) AS pointsSum FROM Score AS s GROUP BY s.user ORDER BY pointsSum 
 public class Score implements Serializable {
@@ -21,6 +20,14 @@ public class Score implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "userId")
 	private User user;
+	
+	@OneToOne
+	@JoinColumn(name="marketQuid")
+	private Answer answer;
+	
+	@OneToOne
+	@JoinColumn(name="statsQuid")
+	private StatisticAnswer stats;
 	
 	@Column(name = "points", nullable = false)
 	private int points;
