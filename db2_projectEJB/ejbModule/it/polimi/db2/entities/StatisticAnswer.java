@@ -31,11 +31,11 @@ public class StatisticAnswer implements Serializable{
 	private ExpLvl expLvl; 
 
     @Column(name = "age", nullable = false)
-	private int age;
+	private Integer age; // use integer because is nullable
 
     public StatisticAnswer() {}
 
-    public StatisticAnswer(Product prod, User user, Gender gender, ExpLvl expLvl, int age){
+    public StatisticAnswer(Product prod, User user, Gender gender, ExpLvl expLvl, Integer age){
         this.prod = prod;
         this.user = user;
         this.gender = gender;
@@ -63,7 +63,7 @@ public class StatisticAnswer implements Serializable{
 
     public void setExpLvl(ExpLvl expLvl) {this.expLvl = expLvl;}
 
-    public int getAge() {return age;}
+    public Integer getAge() {return age;}
 
-    public void setAge(int age) {this.age = age;}
+    public void setAge(Integer age) {this.age = age;}
 }

@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS  Questions (
   body varchar(255) NOT NULL
 );
 
-ALTER TABLE Questions ADD FOREIGN KEY (prodId) REFERENCES Products (id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE Questions ADD FOREIGN KEY (prodId) REFERENCES Products (id) ON UPDATE CASCADE ON DELETE SET NULL;
 
 CREATE TABLE IF NOT EXISTS Answers (
   id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
@@ -47,16 +47,16 @@ CREATE TABLE IF NOT EXISTS Answers (
 
 ALTER TABLE Answers ADD FOREIGN KEY (userId) REFERENCES Users (id) ON UPDATE CASCADE ON DELETE CASCADE;
 
-ALTER TABLE Answers ADD FOREIGN KEY (questionId) REFERENCES Questions (id) ON UPDATE CASCADE ON DELETE NO ACTION;
+ALTER TABLE Answers ADD FOREIGN KEY (questionId) REFERENCES Questions (id) ON UPDATE CASCADE ON DELETE SET NULL;
 
 
 CREATE TABLE IF NOT EXISTS StatisticAnswers (
   id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
   userId INT,
   prodId INT,
-  gender ENUM('male', 'female', 'helicopter') NOT NULL,
-  expLvl ENUM('low', 'medium', 'high') NOT NULL,
-  age INT CHECK (age > 0) NOT NULL
+  gender ENUM('male', 'female', 'helicopter'),
+  expLvl ENUM('low', 'medium', 'high'),
+  age INT CHECK (age > 0)
 );
 
 ALTER TABLE StatisticAnswers ADD FOREIGN KEY (userId) REFERENCES Users (id) ON UPDATE CASCADE ON DELETE NO ACTION;

@@ -59,14 +59,21 @@ DELIMITER ;
 -------------------------------------------------------------------------------------------
 -- 
 
-
+DELIMITER //
+CREATE TRIGGER onProductDelete
+AFTER DELETE ON Products
+FOR EACH ROW
+BEGIN
+	delete from questions where prodId = old.id or prodId = null;
+END //
+DELIMITER ;
 
 DELIMITER //
 CREATE TRIGGER onQuestionDelete
-BEFORE DELETE ON Questions
+AFTER DELETE ON Questions
 FOR EACH ROW
 BEGIN
-	delete from answers where questionId = old.id;
+	delete from answers where questionId = old.id or questionId = null;
 END //
 DELIMITER ;
 

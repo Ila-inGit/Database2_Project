@@ -46,8 +46,6 @@
 				<input type="radio" id="expLvl" name="expLvl" value="high">High
 			</div>
 		</div>
-		<br>
-		<h6><b>Note:</b>You must fill all the fields in this page to get one extra point!</h6>
 		
 		<input type="submit" name="Submit" value="Submit">
 	</form>

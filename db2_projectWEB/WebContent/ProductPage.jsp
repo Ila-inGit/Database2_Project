@@ -85,25 +85,23 @@
 		    </c:when>
 		    <c:otherwise>
 		    	<div class="row">
+		    		 <c:choose>
+						    <c:when test="${usr.isAdmin() == true}">
+						    	<div class="col-sm-11"></div>
+						    	<div class="col-sm-1 flex-vertical-center" style="margin-top:5px;'">
+					                <a href="${pageContext.request.contextPath}/product/new">
+					                    <span class="tooltip" aria-label="Create new product"><i class="fas fa-plus-circle fa-2x"></i></span>
+					                </a>
+					            </div>			            
+						    </c:when>						    
+						</c:choose>
 		    		<div class="col-sm-12 img-container">
 							<img alt="Product image" class ="product-img" src="${pageContext.request.contextPath}/img/no_prod.png"/>
 		             </div>
 		             
-		             <div class="col-sm-10">
+		             <div class="col-sm-12">
 		                 <h3>A raccoon ate today's product of the day so we have nothing to show you.</h3>
-		             </div>
-		             <c:choose>
-						    <c:when test="${usr.isAdmin() == true}">
-						    
-						    	<div class="col-sm-1 flex-vertical-center ">
-					                <a href="${pageContext.request.contextPath}/product/new">
-					                    <span class="tooltip" aria-label="Create new product"><i class="fas fa-plus-circle fa-2x"></i></span>
-					                </a>
-					            </div>		            
-						    </c:when>
-
-						    
-						</c:choose>
+		             </div>			    
 		
 		         </div>
 

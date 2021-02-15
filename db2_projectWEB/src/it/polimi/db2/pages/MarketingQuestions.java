@@ -18,6 +18,7 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import it.polimi.db2.entities.Answer;
 import it.polimi.db2.entities.Question;
 import it.polimi.db2.entities.User;
+import it.polimi.db2.exceptions.InvalidDataException;
 import it.polimi.db2.services.ProductService;
 import it.polimi.db2.services.QuestionnaireService;
 import it.polimi.db2.services.WordFilterService;
@@ -179,41 +180,28 @@ public class MarketingQuestions extends HttpServlet {
 		else
 		{		
 		   //handle post of marketing questions 		
-			String genderStr = request.getParameter("gender");
-			String ageStr = request.getParameter("age");
+			String genderStr =  StringEscapeUtils.escapeHtml(request.getParameter("gender"));
+			String ageStr = StringEscapeUtils.escapeHtml(request.getParameter("age"));
 			String levelStr =  StringEscapeUtils.escapeHtml(request.getParameter("expLvl"));
-			
-			boolean err = false;
-			
+				
 			
 			// valid statistical answer
 			// parse and submit it
-			if(genderStr != null && ageStr != null && levelStr != null)
+			if(genderStr != null || ageStr != null || levelStr != null)
 			{
-				var userGender = StringEscapeUtils.escapeHtml(request.getParameter("gender"));
-				var level = StringEscapeUtils.escapeHtml(request.getParameter("expLvl"));
-				int age = -1;
-				
-				try {
-					age = Integer.parseInt(ageStr);
-					if(age <= 0 || age > 150)
-						err = true;
-				}
-				catch (NumberFormatException e)
+				try
 				{
-					err = true;
+					questService.addStatisticAnswer(prodService.getTodayProduct().getId(), usr.getId(), genderStr, ageStr, levelStr);
 				}
-				
-				if(err)
+				catch(InvalidDataException e)
 				{
-					request.setAttribute("message", "Invald age.");
+					request.setAttribute("message", e.getMessage());
 					request.setAttribute("back_link", request.getContextPath()+"/questions");
 					request.getRequestDispatcher("/ResultPage.jsp").forward(request, response);
 					return;
 				}
 				
-				questService.addStatisticAnswer(prodService.getTodayProduct().getId(), usr.getId(), userGender, age, level);
-				
+							
 			}
 			
 			var answ = questService.getMarketingAnswers();

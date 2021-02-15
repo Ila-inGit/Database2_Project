@@ -18,6 +18,7 @@ import it.polimi.db2.entities.Question;
 import it.polimi.db2.entities.QuestionnaireLog;
 import it.polimi.db2.entities.StatisticAnswer;
 import it.polimi.db2.entities.User;
+import it.polimi.db2.exceptions.InvalidDataException;
 
 @Stateful
 public class QuestionnaireService {
@@ -127,35 +128,59 @@ public class QuestionnaireService {
 	 * @param age
 	 * @param expLvl
 	 */
-	public void addStatisticAnswer (int prodId, int userId, String gender, int age, String expLvl)
+	public void addStatisticAnswer (int prodId, int userId, String gender, String age, String expLvl) throws InvalidDataException
 	{
 		Gender userGender = null;
 		ExpLvl level = null;
+		Integer userAge = null;
+		
 		User user = em.find(User.class, userId);
 		Product prod = em.find(Product.class, prodId);
 		
-		if(gender.equals("female"))
-			userGender = Gender.female;
-		else if (gender.equals("male"))
-			userGender = Gender.male;
+		if(gender != null)
+		{
+			// parse gender
+			if(gender.equals("female"))
+				userGender = Gender.female;
+			else if (gender.equals("male"))
+				userGender = Gender.male;
+		}
 		
-		if(expLvl.equals("low"))
-			level = ExpLvl.low;
-		else if (expLvl.equals("medium"))
-			level = ExpLvl.medium;
-		else if (expLvl.equals("high"))
-			level = ExpLvl.high;
+		if(expLvl != null)
+		{
+			//parse exp level
+			if(expLvl.equals("low"))
+				level = ExpLvl.low;
+			else if (expLvl.equals("medium"))
+				level = ExpLvl.medium;
+			else if (expLvl.equals("high"))
+				level = ExpLvl.high;
+		}
 		
-		// TODO: tirare un eccezione se valori invalidi
+		if(age != null )
+		{
+			//parse age
+			try {
+				userAge = Integer.parseInt(age);
+				if(userAge<= 0 || userAge > 150)
+					throw new InvalidDataException("Invalid age");
+			}
+			catch (NumberFormatException e)
+			{
+				// user age left null
+			}
+		}
 		
+		// save statistcal answers
 		statAnswer = new StatisticAnswer();
 		
 		statAnswer.setProd(prod);
 		statAnswer.setUser(user);
-		statAnswer.setAge(age);
+		statAnswer.setAge(userAge);
 		statAnswer.setExpLvl(level);
 		statAnswer.setGender(userGender);
-		//Ottengo le risposte statistiche e le memorizzo
+		
+		//dont save, we need to wait user submit
 		
 	}
 	
