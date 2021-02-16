@@ -126,7 +126,7 @@ public class ProductService {
 	{
 		try 
 		{
-			int ans_cnt = em.createNamedQuery("User.hasFilledTodayQuestions", Integer.class).setParameter(1, userId).getResultList().size();
+			int ans_cnt = em.createNamedQuery("User.hasFilledTodayQuestions").setParameter(1, userId).getResultList().size();
 			if(ans_cnt > 0)
 				return true;
 		}
