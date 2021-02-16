@@ -117,30 +117,26 @@ public class ProductService {
 		}
 	}
 	
-	
-	
-	public List<Answer> getResultForQuestion(int questId, int prodId){
-		
-		Product pr;
+	/**
+	 * Check if the user has answered to the questions of the product of the day
+	 * @param userId
+	 * @return true only if the user has answered, otherwise return false even if there is no product or question
+	 */
+	public boolean userHasAnsweredToTodayQuestions(int userId)
+	{
 		try 
 		{
-			pr = em.find(Product.class, prodId);
-			
-		} catch(NoResultException e) {
-			pr = new Product();
+			int ans_cnt = em.createNamedQuery("User.hasFilledTodayQuestions", Integer.class).setParameter(1, userId).getResultList().size();
+			if(ans_cnt > 0)
+				return true;
 		}
+		catch(Exception e) { }
 		
-		Question question= pr.getQuestions().stream().filter((q) -> q.getId() == questId).findFirst().orElse(null);
-		
-		if(question != null) {
-			return question.getAnswers();
-		}
-		
-		return new ArrayList<Answer>(); 
-		
+		return false;
 	}
 	
-public Map<User, Boolean> getUsersQuestionnaire(int prodId){
+	
+	public Map<User, Boolean> getUsersQuestionnaire(int prodId){
 		
 		Product pr;
 		///true if he submitted the questionnaire

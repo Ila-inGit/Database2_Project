@@ -45,7 +45,13 @@ public class ProductPage extends HttpServlet {
 			img_extension = ImageUtils.getImageExtension(prod.getPhoto());		
 		}		
 		
+		var usr = (User)request.getAttribute("usr");
+		
 		request.setAttribute("product", prod);
+		
+		if(!usr.isAdmin())
+			request.setAttribute("poll_done", productService.userHasAnsweredToTodayQuestions(usr.getId()));
+		
 		request.setAttribute("product_image", img);
 		request.setAttribute("product_image_ext", img_extension);
 		request.getRequestDispatcher("/ProductPage.jsp").forward(request, response);

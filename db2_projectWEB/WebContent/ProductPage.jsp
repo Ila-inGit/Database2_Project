@@ -34,7 +34,7 @@
 						    </c:when>
 						    <c:otherwise>
 						    		<c:choose>
-					            		<c:when test="${product.getQuestions().size() > 0}">
+					            		<c:when test="${product.getQuestions().size() > 0 && !poll_done}">
 					            			<div class="col-sm-1 flex-vertical-center ">
 								                <a href="${pageContext.request.contextPath}/questions">
 								                    <span class="tooltip" aria-label="Answer questions"><i class="fas fa-poll fa-2x"></i></span>

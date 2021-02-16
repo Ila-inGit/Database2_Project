@@ -8,8 +8,11 @@ import java.util.List;
 
 @Entity
 @Table(name = "users", schema = "db2_project")
-@NamedQueries({@NamedQuery(name = "User.checkCredentials", query = "SELECT r FROM User r  WHERE r.userName = ?1 and r.password = ?2"),
-	@NamedQuery(name = "User.findByEmail", query = "SELECT r FROM User r  WHERE r.email = :email ")})
+@NamedQueries({
+	@NamedQuery(name = "User.checkCredentials", query = "SELECT r FROM User r  WHERE r.userName = ?1 and r.password = ?2"),
+	@NamedQuery(name = "User.findByEmail", query = "SELECT r FROM User r  WHERE r.email = :email "),
+	@NamedQuery(name="User.hasFilledTodayQuestions", query="SELECT a FROM Answer a WHERE a.user.id = ?1 AND a.quest.id IN (SELECT q.id FROM Question q WHERE q.prodId.id = ( SELECT p.id FROM Product p WHERE p.displayDate = CURRENT_DATE))")
+	})
 
 public class User implements Serializable{
 	private static final long serialVersionUID = 1L;

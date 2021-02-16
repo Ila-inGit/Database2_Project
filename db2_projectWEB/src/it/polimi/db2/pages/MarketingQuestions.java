@@ -57,10 +57,22 @@ public class MarketingQuestions extends HttpServlet {
 		
 		QuestionnaireService questService  = (QuestionnaireService) request.getSession().getAttribute("questService");
 		
-		//TODO: check double insert
+		var prd = prodService.getTodayProduct();
 
-		if(questService != null)
+		if(questService != null && prd != null && prd.getQuestions().size() > 0)
 		{
+			
+			var usr = (User) request.getAttribute("usr");
+			
+			//double insert not allowed (handle error before db transacion is rejected)
+			if(prodService.userHasAnsweredToTodayQuestions(usr.getId()))
+			{
+				request.setAttribute("message", "You have already submitted your answers, come back tomorrow!");
+				request.setAttribute("back_link", request.getContextPath());
+				request.getRequestDispatcher("/ResultPage.jsp").forward(request, response);
+				return;
+			}
+			
 			
 			// use get parameter to customize navigation in the questionnaire
 			String action = request.getParameter("action");
@@ -93,7 +105,6 @@ public class MarketingQuestions extends HttpServlet {
 				// open new questionnaire
 				if(questService.getMarketingAnswers().size() <= 0)
 				{
-					var usr = (User) request.getAttribute("usr");
 					questService.createQuestionnaireLog(usr.getId(), prodService.getTodayProduct().getId());
 				}
 				
