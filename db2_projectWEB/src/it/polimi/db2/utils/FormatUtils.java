@@ -36,4 +36,13 @@ public class FormatUtils {
                 &&  today.get(Calendar.MONTH) == specifiedDate.get(Calendar.MONTH)
                 &&  today.get(Calendar.YEAR) == specifiedDate.get(Calendar.YEAR);
     }
+	
+	
+	public static String replaceNullable(Object o)
+	{
+		if(o == null)
+			return "";
+		else
+			return o.toString();
+	}
 }

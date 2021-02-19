@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
+<%@ page import="it.polimi.db2.utils.FormatUtils" %>
 
 <t:pageLayout>
 
@@ -15,7 +16,7 @@
 	  <caption>Users</caption>
 	  <thead>
 	    <tr>
-	      <th>UserName</th>
+	      <th>Username</th>
 	      <th>Have they submitted the questionnaire?</th>
 	    </tr>
 	  </thead>
@@ -44,7 +45,7 @@
 							  <caption>Answers submitted</caption>
 							  <thead>
 							    <tr>
-							      <th>UserName</th>
+							      <th>Username</th>
 							      <th>Answer</th>
 							    </tr>
 							  </thead>
@@ -60,6 +61,32 @@
                    		</c:forEach> 
                 </form> 
                 
+      <table class="striped">
+	  <caption>Statistical Results</caption>
+	  <thead>
+	    <tr>
+	      <th>Username</th>
+	      <th>Gender</th>
+	      <th>Age</th>
+	      <th>Experience Level</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+		<c:forEach items="${product.getStatAnswers()}" var="ans">
+			<c:choose>
+				<c:when test="${ans.getGender() != null || ans.getAge() != null || ans.getExpLvl() != null }">			
+					<tr>
+						<td >${ans.getUser().getUserName()}</td>
+						<td >${FormatUtils.replaceNullable(ans.getGender())}</td>
+						<td >${FormatUtils.replaceNullable(ans.getAge())}</td>
+						<td >${FormatUtils.replaceNullable(ans.getExpLvl())}</td>
+					</tr>
+				</c:when>
+			</c:choose>
+
+		</c:forEach>		
+	  </tbody>
+	</table>         
                           
     </jsp:body>
 </t:pageLayout>

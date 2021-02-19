@@ -40,9 +40,11 @@ public class ResultsPage extends HttpServlet {
 		String pid = request.getParameter("id");
 		int prodId = -1;
 		
+		boolean err = false;
+		
 		if(pid == null)
 		{
-			//TODO handle error
+			err = true;
 		}
 		
 		try
@@ -50,18 +52,27 @@ public class ResultsPage extends HttpServlet {
 			prodId = Integer.parseInt(pid);
 		} catch(NumberFormatException e)
 		{
-			// TODO: handle error
+			err = true;
 		}
 		
 		/*mi devo prendere tutte le domande del questionario*/ 
 		Product prod = prodService.getProductById(prodId);
 		if(prod == null)
 		{
-			//TODO: handle error
+			err = true;
+		}
+		
+		if(err)
+		{
+			request.setAttribute("message", "Wrong product id");
+			request.setAttribute("back_link", request.getContextPath());
+			request.getRequestDispatcher("/ResultPage.jsp").forward(request, response);
+			return;
 		}
 		
 		allQuestions = prod.getQuestions();
 		
+		request.setAttribute("product", prod);
 		request.setAttribute("questions", allQuestions);
 		
 		
