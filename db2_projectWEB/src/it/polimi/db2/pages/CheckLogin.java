@@ -94,7 +94,6 @@ public class CheckLogin extends HttpServlet {
 			
 			QuestionnaireService questService = null;
 			try {
-				//questService = (QuestionnaireService) new InitialContext().lookup("java:/openejb/local/QuestionnaireServiceLocalBean");
 				questService = (QuestionnaireService) new InitialContext().lookup("java:comp/env/QuestionnaireService");
 			} catch (NamingException e) {
 				e.printStackTrace();
